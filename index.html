@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>BIOTTUS EXCHANGE | Pro Trading Terminal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIOTTUS EXCHANGE</title>
     <style>
         :root {
             --bg: #0b0e11;
@@ -13,56 +13,137 @@
             --text: #eaecef;
             --text-2: #848e9c;
             --gold: #f0b90b;
-            --gold-glow: rgba(240,185,11,0.25);
             --green: #0ecb81;
             --red: #f6465d;
         }
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
-        
-        /* HEADER + 3D LOGO */
-        .navbar { background: var(--card-2); padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
+        * { box-sizing: border-box; }
+        body { background: var(--bg); color: var(--text); font-family: Arial, sans-serif; margin: 0; padding: 0; }
+        .navbar { background: var(--card-2); padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
         .logo-wrapper { display: flex; align-items: center; cursor: pointer; gap: 10px; }
-        .pro-logo { 
-            width: 38px; height: 38px; border-radius: 50%; 
-            background: conic-gradient(from 180deg, #FFD700, #F0B90B, #D4AF37, #FFD700);
+        .pro-logo {
+            width: 38px; height: 38px; border-radius: 50%;
+            background: linear-gradient(135deg, #FFD700, #F0B90B);
             display: flex; align-items: center; justify-content: center;
-            font-weight: 900; font-size: 20px; color: #000; 
-            box-shadow: 0 4px 15px var(--gold-glow), inset 0 -2px 0 rgba(0,0,0,0.2);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-weight: 900; font-size: 20px; color: #000;
         }
-        .pro-logo:hover { transform: rotateY(180deg) scale(1.1); }
-        .brand-name { font-size: 17px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
+        .brand-name { font-size: 17px; font-weight: 800; }
         .brand-name span { color: var(--gold); }
-        .status-dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; box-shadow: 0 0 8px var(--green); animation: pulse 2s infinite; }
-        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
-        
-        /* MAIN LAYOUT */
         .page-screen { display: none; padding: 16px; max-width: 520px; margin: 0 auto 75px; }
-        .page-screen.active { display: block; animation: fadeIn 0.3s; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } }
-        
-        /* GLASS CARDS */
-        .card { background: linear-gradient(180deg, var(--card) 0%, var(--card-2) 100%); padding: 20px; border-radius: 18px; border: 1px solid var(--border); margin-bottom: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
-        .balance-title { font-size: 12px; color: var(--text-2); font-weight: 500; }
-        .balance-amount { font-size: 34px; font-weight: 800; margin-top: 6px; letter-spacing: -1px; }
-        .balance-pnl { font-size: 13px; font-weight: 700; margin-top: 8px; display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 20px; }
-        .pnl-up { background: rgba(14,203,129,0.15); color: var(--green); }
-        .pnl-down { background: rgba(246,70,93,0.15); color: var(--red); }
-        .btn-primary { background: linear-gradient(135deg, #f3ba2f, var(--gold)); color: #000; font-weight: 800; font-size: 13px; border: none; padding: 12px 22px; border-radius: 12px; cursor: pointer; transition: 0.2s; }
-        .btn-primary:active { transform: scale(0.95); }
-        
-        /* ACTION GRID */
+        .page-screen.active { display: block; }
+        .card { background: var(--card); padding: 20px; border-radius: 18px; border: 1px solid var(--border); margin-bottom: 16px; }
+        .balance-amount { font-size: 34px; font-weight: 800; margin-top: 6px; }
+        .btn-primary { background: var(--gold); color: #000; font-weight: 800; font-size: 13px; border: none; padding: 12px 22px; border-radius: 12px; cursor: pointer; }
         .action-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-        .grid-item { background: var(--card-2); border: 1px solid var(--border); border-radius: 14px; padding: 14px 8px; text-align: center; cursor: pointer; transition: 0.2s; }
-        .grid-item:active { transform: scale(0.92); background: var(--card); }
-        .grid-icon { font-size: 22px; margin-bottom: 6px; }
-        .grid-item p { font-size: 11px; font-weight: 600; margin: 0; color: var(--text-2); }
-        
-        /* CRYPTO LIST */
-        .list-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-        .list-title { font-size: 15px; font-weight: 800; }
-        .badge { background: rgba(240,185,11,0.1); color: var(--gold); font-size: 11px; padding: 3px 10px; border-radius: 20px; border: 1px solid rgba(240,185,11,0.2); font-weight: 700; }
-        .crypto-scroller { max-height: 500px; overflow-y: auto; }
-        .crypto-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 4px; border-radius: 10px; transition: 0.2s; }
-        .crypto-row:active
+        .grid-item { background: var(--card-2); border: 1px solid var(--border); border-radius: 14px; padding: 14px 8px; text-align: center; cursor: pointer; }
+        .crypto-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 4px; }
+        .coin-info { display: flex; align-items: center; gap: 12px; }
+        .coin-icon { width: 32px; height: 32px; border-radius: 50%; background: var(--border); display: flex; align-items: center; justify-content: center; font-weight: 800; }
+        .price { font-size: 15px; font-weight: 700; }
+        .change-up { background: rgba(14,203,129,0.15); color: var(--green); padding: 2px 8px; border-radius: 6px; font-size: 12px; }
+        .bottom-nav { background: var(--card-2); border-top: 1px solid var(--border); position: fixed; bottom: 0; left: 0; right: 0; height: 65px; display: flex; justify-content: space-around; align-items: center; z-index: 1000; max-width: 520px; margin: 0 auto; }
+        .nav-btn { background: none; border: none; color: var(--text-2); display: flex; flex-direction: column; align-items: center; font-size: 10px; cursor: pointer; font-weight: 600; }
+        .nav-btn.active { color: var(--gold); }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo-wrapper" onclick="routeTo('home')">
+            <div class="pro-logo">B</div>
+            <div class="brand-name">BIOTTUS <span>EXCHANGE</span></div>
+        </div>
+    </div>
+
+    <div id="screen-home" class="page-screen active">
+        <div class="card">
+            <div style="display:flex; justify-content:space-between; align-items:start;">
+                <div>
+                    <div style="font-size:12px;color:#848e9c;">Total Portfolio Value</div>
+                    <div class="balance-amount">$8,492.67</div>
+                </div>
+                <button class="btn-primary" onclick="routeTo('buy')">Deposit</button>
+            </div>
+        </div>
+        <div class="card">
+            <div class="action-grid">
+                <div class="grid-item" onclick="routeTo('buy')">💱<br>Swap</div>
+                <div class="grid-item" onclick="routeTo('trade')">📈<br>Trade</div>
+                <div class="grid-item" onclick="routeTo('markets')">🌐<br>Markets</div>
+                <div class="grid-item" onclick="routeTo('assets')">👛<br>Assets</div>
+            </div>
+        </div>
+        <div class="card">
+            <div style="font-weight:800; margin-bottom:12px;">Top Movers</div>
+            <div id="home-feed"></div>
+        </div>
+    </div>
+
+    <div id="screen-markets" class="page-screen">
+        <div class="card">
+            <div style="font-weight:800; margin-bottom:12px;">All Markets</div>
+            <div id="market-feed"></div>
+        </div>
+    </div>
+
+    <div id="screen-trade" class="page-screen">
+        <div class="card">
+            <div style="font-weight:800; font-size:16px;">BTC/USDT</div>
+            <div class="price" id="btc-price" style="color:var(--green);">$66,450.50</div>
+        </div>
+    </div>
+
+    <div id="screen-buy" class="page-screen">
+        <div class="card">
+            <div style="font-weight:800; margin-bottom:16px;">Instant Swap</div>
+            <button class="btn-primary" style="width:100%;">Confirm Swap</button>
+        </div>
+    </div>
+
+    <div id="screen-assets" class="page-screen">
+        <div class="card">
+            <div style="font-weight:800; margin-bottom:16px;">My Portfolio</div>
+            <div class="crypto-row">
+                <div class="coin-info">
+                    <div class="coin-icon">₿</div>
+                    <div>Bitcoin</div>
+                </div>
+                <div>$5,449.01</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <button onclick="routeTo('home')" class="nav-btn active" id="nav-home">🏠<br>Home</button>
+        <button onclick="routeTo('markets')" class="nav-btn" id="nav-markets">📊<br>Markets</button>
+        <button onclick="routeTo('trade')" class="nav-btn" id="nav-trade">📈<br>Trade</button>
+        <button onclick="routeTo('buy')" class="nav-btn" id="nav-buy">💱<br>Swap</button>
+        <button onclick="routeTo('assets')" class="nav-btn" id="nav-assets">👛<br>Assets</button>
+    </div>
+
+    <script>
+        function routeTo(id) {
+            document.querySelectorAll('.page-screen').forEach(function(s) { s.classList.remove('active'); });
+            document.getElementById('screen-' + id).classList.add('active');
+            document.querySelectorAll('.nav-btn').forEach(function(b) { b.classList.remove('active'); });
+            document.getElementById('nav-' + id).classList.add('active');
+        }
+
+        var coins = [
+            {s:"BTC",n:"Bitcoin",p:66450.5,c:3.54},
+            {s:"ETH",n:"Ethereum",p:1812.2,c:2.81},
+            {s:"BNB",n:"BNB Chain",p:624.4,c:1.45},
+            {s:"SOL",n:"Solana",p:145.3,c:8.92}
+        ];
+
+        function renderCoins() {
+            var html = '';
+            for (var i = 0; i < coins.length; i++) {
+                var c = coins[i];
+                html += '<div class="crypto-row"><div class="coin-info"><div class="coin-icon">' + c.s[0] + '</div><div>' + c.s + '/USDT<br><span style="font-size:11px;color:#848e9c;">' + c.n + '</span></div></div><div style="text-align:right;"><div class="price">$' + c.p + '</div><div class="change-up">+' + c.c + '%</div></div></div>';
+            }
+            document.getElementById('home-feed').innerHTML = html;
+            document.getElementById('market-feed').innerHTML = html;
+        }
+        renderCoins();
+    </script>
+</body>
+</html>
