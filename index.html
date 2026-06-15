@@ -9,7 +9,7 @@
 body{background:#0b0e11;color:#eaecef;font-family:Arial;}
 .h{background:#12161c;padding:16px 24px;border-bottom:1px solid #2b3139;position:sticky;top:0;z-index:100;display:flex;align-items:center;}
 .logo{display:inline-flex;width:44px;height:44px;background:linear-gradient(135deg,#f0b90b,#ffc800);color:#000;align-items:center;justify-content:center;font-weight:900;border-radius:8px;font-size:18px;box-shadow:0 2px 8px rgba(240,185,11,0.4);flex-shrink:0;}
-.t{color:#f0b90b;font-size:22px;font-weight:800;display:inline-block;margin-left:12px;vertical-align:middle;}
+.t{color:#fff;font-size:22px;font-weight:800;display:inline-block;margin-left:12px;vertical-align:middle;letter-spacing:1px;}
 .nav{display:inline-block;margin-left:40px;}
 .nav a{color:#848e9c;text-decoration:none;font-weight:600;margin:0 15px;font-size:14px;padding:20px 0;}
 .nav a:hover{color:#fff;}
@@ -38,14 +38,14 @@ tr:hover{background:#1e2329;cursor:pointer;}
 .chartbox{width:100%;height:380px;background:#0b0e11;border-radius:8px;margin-top:12px;position:relative;overflow:hidden;}
 .candlechart{width:100%;height:300px;position:relative;}
 .volchart{width:100%;height:80px;position:relative;border-top:1px solid #2b3139;}
-.candle{position:absolute;width:6px;bottom:0;}
-.candle-body{position:absolute;width:6px;left:0;background:#0ecb81;}
-.candle.red.candle-body{background:#f6465d;}
-.candle-wick{position:absolute;width:1px;left:2.5px;background:#848e9c;}
-.volbar{position:absolute;width:6px;bottom:0;background:#2b3139;opacity:0.5;}
+.candle{position:absolute;width:8px;bottom:0;}
+.candle-body{position:absolute;width:8px;left:0;background:#0ecb81;border:1px solid #0ecb81;}
+.candle.red.candle-body{background:#f6465d;border:1px solid #f6465d;}
+.candle-wick{position:absolute;width:1px;left:3.5px;background:#848e9c;}
+.volbar{position:absolute;width:8px;bottom:0;opacity:0.8;}
 .volbar.green{background:#0ecb81;}
 .volbar.red{background:#f6465d;}
-.maline{position:absolute;height:1px;pointer-events:none;}
+.maline{position:absolute;height:2px;pointer-events:none;}
 .ma7{background:#f0b90b;}
 .ma25{background:#9c27b0;}
 .ma99{background:#2196f3;}
@@ -79,7 +79,7 @@ tr:hover{background:#1e2329;cursor:pointer;}
 <body>
 <div class="h">
 <div class="logo">BX</div>
-<div class="t">BIOTTUS EXCHANGE</div>
+<div class="t">BIOTTUS <span style="color:#f0b90b">EXCHANGE</span></div>
 <div class="nav">
 <a href="#home" id="navHome">Home</a>
 <a href="#markets" id="navMarkets">Markets</a>
@@ -210,7 +210,7 @@ coins[c]={p:defaultPrices[c]||1,c:(Math.random()*10-5),h:defaultPrices[c]*1.02,l
 wallet[c]=0;
 });
 generateCandles();
-let d=localStorage.getItem('bio6');
+let d=localStorage.getItem('bio7');
 if(d){let j=JSON.parse(d);usdt=j.u;logged=j.l;hist=j.h||[];Object.assign(wallet,j.w||{});}
 updateUI();updateHist();drawChart();updateMarkets();
 document.getElementById('buyAmt').oninput=calcBuy;
@@ -227,10 +227,12 @@ function generateCandles(){
 let base=coins[curCoin].p;
 candleData=[];
 for(let i=0;i<60;i++){
-let o=base+(Math.random()-0.5)*base*0.02;
-let c=o+(Math.random()-0.5)*base*0.03;
-let h=Math.max(o,c)+Math.random()*base*0.01;
-let l=Math.min(o,c)-Math.random()*base*0.01;
+let trend = Math.sin(i/8) * 0.015;
+let o=base*(1+trend+(Math.random()-0.5)*0.01);
+let change = (Math.random()-0.5)*0.025;
+let c=o*(1+change);
+let h=Math.max(o,c)*(1+Math.random()*0.008);
+let l=Math.min(o,c)*(1-Math.random()*0.008);
 let v=Math.random()*100000;
 candleData.push({o:o,h:h,l:l,c:c,v:v});
 base=c;
@@ -245,32 +247,28 @@ let maxH=Math.max(...candleData.map(d=>d.h));
 let minL=Math.min(...candleData.map(d=>d.l));
 let range=maxH-minL;
 candleData.forEach((d,idx)=>{
-let x=(idx/candleData.length)*100;
-let w=1.5;
+let x=(idx/candleData.length)*98;
 let oY=((maxH-d.o)/range)*280;
 let cY=((maxH-d.c)/range)*280;
 let hY=((maxH-d.h)/range)*280;
 let lY=((maxH-d.l)/range)*280;
 let isGreen=d.c>=d.o;
-// Wick
 let wick=document.createElement('div');
 wick.className='candle-wick';
-wick.style.left=x+'%';
+wick.style.left=(x+0.4)+'%';
 wick.style.top=hY+'px';
 wick.style.height=(lY-hY)+'px';
 c.appendChild(wick);
-// Body
 let body=document.createElement('div');
 body.className='candle'+(isGreen?'':' red');
 body.style.left=x+'%';
 body.style.top=Math.min(oY,cY)+'px';
-body.style.height=Math.abs(cY-oY)+'px';
+body.style.height=Math.max(2,Math.abs(cY-oY))+'px';
 let bodyDiv=document.createElement('div');
 bodyDiv.className='candle-body';
 bodyDiv.style.height='100%';
 body.appendChild(bodyDiv);
 c.appendChild(body);
-// Volume
 if(vc){
 let volH=(d.v/Math.max(...candleData.map(x=>x.v)))*70;
 let vol=document.createElement('div');
@@ -280,7 +278,6 @@ vol.style.height=volH+'px';
 vc.appendChild(vol);
 }
 });
-// MA Lines
 let ma7=calcMA(7),ma25=calcMA(25),ma99=calcMA(99);
 drawMALine(c,ma7,'ma7',maxH,minL,range);
 drawMALine(c,ma25,'ma25',maxH,minL,range);
@@ -300,20 +297,26 @@ return ma;
 }
 
 function drawMALine(container,ma,cls,maxH,minL,range){
-ma.forEach((v,idx)=>{
-if(v===null)return;
-let x=(idx/candleData.length)*100;
-let y=((maxH-v)/range)*280;
-let dot=document.createElement('div');
-dot.className='maline '+cls;
-dot.style.left=x+'%';
-dot.style.top=y+'px';
-dot.style.width='3px';
-container.appendChild(dot);
-});
+for(let i=1;i<ma.length;i++){
+if(ma[i]===null||ma[i-1]===null)continue;
+let x1=((i-1)/candleData.length)*98;
+let x2=(i/candleData.length)*98;
+let y1=((maxH-ma[i-1])/range)*280;
+let y2=((maxH-ma[i])/range)*280;
+let line=document.createElement('div');
+line.className='maline '+cls;
+let dx=x2-x1,dy=y2-y1;
+let len=Math.sqrt(dx*dx+dy*dy*0.1);
+let angle=Math.atan2(dy*0.1,dx)*180/Math.PI;
+line.style.left=x1+'%';
+line.style.top=y1+'px';
+line.style.width=len+'%';
+line.style.transform='rotate('+angle+'deg)';
+line.style.transformOrigin='0 0';
+container.appendChild(line);
 }
-
-function updatePrices(){
+}
+  function updatePrices(){
 coinList.forEach(c=>{
 let change=(Math.random()-0.48)*0.01;
 coins[c].p*=1+change;
@@ -330,7 +333,7 @@ document.getElementById('ma99').textContent=(p*1.005).toFixed(2);
 updateCoinDisplay();updateMarkets();
 }
 
-function save(){localStorage.setItem('bio6',JSON.stringify({u:usdt,l:logged,h:hist,w:wallet}));}
+function save(){localStorage.setItem('bio7',JSON.stringify({u:usdt,l:logged,h:hist,w:wallet}));}
 function showLogin(){document.getElementById('login').classList.add('show');}
 function hideLogin(){document.getElementById('login').classList.remove('show');}
 function setActiveMenu(){
@@ -377,6 +380,8 @@ logged=true;save();updateUI();hideLogin();location='#home';
 showMsg('Login Successful!',0);
 }else{alert('Wrong credentials! Use demo@biottus.com / 123456');}
 }
+
+document.getElementById('userBtn').onclick=function(){toggleUser();};
 
 function toggleUser(){
 if(logged){if(confirm('Logout? Balance will reset.')){logged=false;usdt=1000000000;hist=[];coinList.forEach(c=>wallet[c]=0);save();updateUI();location='#home';}}
