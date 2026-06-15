@@ -5,14 +5,24 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Biottus Exchange</title>
 <style>
-body{margin:0;background:#0b0e11;color:#eaecef;font-family:Arial;padding:16px;}
-.h{background:#12161c;padding:14px;text-align:center;border-bottom:1px solid #2b3139;}
+*{margin:0;box-sizing:border-box;}
+body{background:#0b0e11;color:#eaecef;font-family:Arial;padding:0 0 80px 0;}
+.h{background:#12161c;padding:14px;text-align:center;border-bottom:1px solid #2b3139;position:sticky;top:0;}
 .logo{width:40px;height:40px;background:#f0b90b;color:#000;display:inline-block;line-height:40px;font-weight:900;border-radius:8px;margin-bottom:8px;}
-.t{font-size:22px;font-weight:800;color:#f0b90b;}
-.c{background:#181a20;border:1px solid #2b3139;border-radius:12px;padding:16px;margin:12px auto;max-width:400px;}
-.b{font-size:32px;font-weight:700;margin:8px 0;}
-.g{color:#0ecb81;}
-.r{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #2b3139;}
+.t{font-size:20px;font-weight:800;color:#f0b90b;}
+.c{background:#181a20;border:1px solid #2b3139;border-radius:12px;padding:16px;margin:12px;max-width:430px;margin-left:auto;margin-right:auto;}
+.lb{font-size:12px;color:#848e9c;}
+.b{font-size:32px;font-weight:700;margin:6px 0;}
+.g{color:#0ecb81;font-weight:600;}
+.btn{background:#f0b90b;color:#000;border:none;width:100%;padding:12px;border-radius:8px;font-weight:700;margin-top:12px;}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;}
+.gi{background:#1e2329;border:1px solid #2b3139;border-radius:10px;padding:16px 8px;text-align:center;font-size:13px;color:#848e9c;font-weight:600;}
+.r{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid #2b3139;}
+.r:last-child{border:none;}
+.nav{position:fixed;bottom:0;left:0;right:0;background:#12161c;border-top:1px solid #2b3139;display:flex;max-width:430px;margin:0 auto;}
+.ni{flex:1;text-align:center;padding:10px 0 8px;color:#848e9c;font-size:10px;font-weight:600;}
+.ni.a{color:#f0b90b;}
+.ni span{display:block;font-size:20px;margin-bottom:2px;}
 </style>
 </head>
 <body>
@@ -20,16 +30,39 @@ body{margin:0;background:#0b0e11;color:#eaecef;font-family:Arial;padding:16px;}
 <div class="logo">B</div>
 <div class="t">BIOTTUS EXCHANGE</div>
 </div>
+
 <div class="c">
-<div style="font-size:12px;color:#848e9c;">Total Balance</div>
+<div class="lb">Total Balance</div>
 <div class="b">$24,592.84</div>
 <div class="g">+ $847.21 Today</div>
+<button class="btn">Deposit</button>
 </div>
+
 <div class="c">
+<div class="grid">
+<div class="gi"><span>T</span>Trade</div>
+<div class="gi"><span>F</span>Futures</div>
+<div class="gi"><span>C</span>Convert</div>
+<div class="gi"><span>W</span>Wallet</div>
+</div>
+</div>
+
+<div class="c">
+<div style="font-weight:700;margin-bottom:12px;">Markets</div>
 <div class="r"><span>BTC/USDT</span><span class="g">66450.50</span></div>
 <div class="r"><span>ETH/USDT</span><span class="g">1812.20</span></div>
 <div class="r"><span>BNB/USDT</span><span class="g">624.40</span></div>
-<div class="r" style="border:none;"><span>SOL/USDT</span><span class="g">145.30</span></div>
+<div class="r"><span>SOL/USDT</span><span class="g">145.30</span></div>
+<div class="r"><span>XRP/USDT</span><span class="g">0.5820</span></div>
+<div class="r" style="border:none;"><span>ADA/USDT</span><span class="g">0.4521</span></div>
+</div>
+
+<div class="nav">
+<div class="ni a"><span>H</span>Home</div>
+<div class="ni"><span>M</span>Markets</div>
+<div class="ni"><span>T</span>Trade</div>
+<div class="ni"><span>F</span>Futures</div>
+<div class="ni"><span>A</span>Assets</div>
 </div>
 </body>
 </html>
