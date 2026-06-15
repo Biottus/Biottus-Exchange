@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>BIOTTUS EXCHANGE</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
     <style>
         body { background-color: #12161a; color: #eaecef; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 0; }
         .bg-binance-dark { background-color: #181a20; }
@@ -85,15 +84,15 @@
                 <div class="divide-y divide-luxury" id="home-crypto-feed">
                     <div class="crypto-row" onclick="switchPage('trade')">
                         <div><p class="text-sm font-bold text-white">BTC<span class="text-[10px] text-gray-500 ml-1">/USDT</span></p><p class="text-[10px] text-gray-400">Bitcoin</p></div>
-                        <div class="text-right"><p class="text-sm font-bold text-white" id="home-p-btc">$66,742.10</p><p class="text-xs text-green-500 font-bold" id="home-c-btc">+3.54%</p></div>
+                        <div class="text-right"><p class="text-sm font-bold text-white" id="home-p-btc">$66,400.00</p><p class="text-xs text-green-500 font-bold" id="home-c-btc">+0.00%</p></div>
                     </div>
                     <div class="crypto-row" onclick="switchPage('trade')">
                         <div><p class="text-sm font-bold text-white">ETH<span class="text-[10px] text-gray-500 ml-1">/USDT</span></p><p class="text-[10px] text-gray-400">Ethereum</p></div>
-                        <div class="text-right"><p class="text-sm font-bold text-white" id="home-p-eth">$1,811.45</p><p class="text-xs text-green-500 font-bold" id="home-c-eth">+2.82%</p></div>
+                        <div class="text-right"><p class="text-sm font-bold text-white" id="home-p-eth">$1,810.00</p><p class="text-xs text-green-500 font-bold" id="home-c-eth">+0.00%</p></div>
                     </div>
                     <div class="crypto-row" onclick="switchPage('trade')">
                         <div><p class="text-sm font-bold text-white">BNB<span class="text-[10px] text-gray-500 ml-1">/USDT</span></p><p class="text-[10px] text-gray-400">Binance Coin</p></div>
-                        <div class="text-right"><p class="text-sm font-bold text-white" id="home-p-bnb">$625.30</p><p class="text-xs text-green-500 font-bold" id="home-c-bnb">+1.45%</p></div>
+                        <div class="text-right"><p class="text-sm font-bold text-white" id="home-p-bnb">$624.00</p><p class="text-xs text-green-500 font-bold" id="home-c-bnb">+0.00%</p></div>
                     </div>
                 </div>
             </div>
@@ -101,14 +100,14 @@
         
         <div class="bg-binance-dark p-4 rounded-xl border border-luxury h-fit space-y-3 shadow-lg">
             <h4 class="text-xs font-bold text-gold uppercase tracking-wider">🎯 Market Console</h4>
-            <p class="text-xs text-gray-400 leading-relaxed">Your professional suite is fully compiled. Click any button above or below to open separate active terminals instantly.</p>
+            <p class="text-xs text-gray-400 leading-relaxed">WebSocket Live Feed Secure Tunnel Active. Click any option to navigate instantly without refreshing.</p>
             <button onclick="switchPage('trade')" class="w-full bg-gold text-black py-2.5 rounded-lg text-xs font-bold hover:opacity-90 transition">Open Terminal Screen</button>
         </div>
     </div>
 
     <div id="page-buy" class="tab-content max-w-md mx-auto p-4 mt-2">
         <div class="bg-binance-dark p-5 rounded-2xl border border-luxury shadow-2xl space-y-4">
-            <h2 class="text-md font-bold text-white border-b border-luxury pb-2">💳 Buy Crypto Gateway</h2>
+            <h2 class="text-md font-bold text-white border-b border-luxury pb-2"> 💳 Buy Crypto Gateway</h2>
             <div class="space-y-3">
                 <div>
                     <label class="text-xs text-gray-400 block mb-1">Amount to Spend (USDT)</label>
@@ -124,16 +123,16 @@
                 </div>
                 <div class="bg-[#12161a] p-3 rounded-xl border border-luxury flex justify-between text-xs text-gray-300">
                     <span>You will receive:</span>
-                    <span class="font-bold text-gold" id="receive-display">0.0075 BTC</span>
+                    <span class="font-bold text-gold" id="receive-display">Calculating...</span>
                 </div>
-                <button onclick="alert('Order successfully queued on Biottus Ledger!')" class="w-full bg-gold text-black font-black py-3 rounded-xl text-xs tracking-wider shadow-lg">EXECUTE BUY TRANSACTION</button>
+                <button onclick="alert('Order successfully executed on Biottus Smart Wallet Ledger!')" class="w-full bg-gold text-black font-black py-3 rounded-xl text-xs tracking-wider shadow-lg">EXECUTE BUY TRANSACTION</button>
             </div>
         </div>
     </div>
 
     <div id="page-markets" class="tab-content max-w-4xl mx-auto p-4">
         <div class="bg-binance-dark p-4 rounded-xl border border-luxury shadow-xl">
-            <h2 class="text-md font-bold text-white mb-3">📋 Global Spot Markets</h2>
+            <h2 class="text-md font-bold text-white mb-3">📋 Global Spot Markets (Live WebSocket)</h2>
             <table class="w-full text-left text-xs sm:text-sm">
                 <thead>
                     <tr class="text-gray-400 border-b border-luxury">
@@ -142,10 +141,10 @@
                         <th class="pb-2">24h Change</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-luxury" id="markets-table-body">
-                    <tr><td class="py-3 font-bold text-white">BTC/USDT</td><td class="py-3" id="tab-p-btc">$66,742.10</td><td class="py-3 text-green-500 font-bold" id="tab-c-btc">+3.54%</td></tr>
-                    <tr><td class="py-3 font-bold text-white">ETH/USDT</td><td class="py-3" id="tab-p-eth">$1,811.45</td><td class="py-3 text-green-500 font-bold" id="tab-c-eth">+2.82%</td></tr>
-                    <tr><td class="py-3 font-bold text-white">BNB/USDT</td><td class="py-3" id="tab-p-bnb">$625.30</td><td class="py-3 text-green-500 font-bold" id="tab-c-bnb">+1.45%</td></tr>
+                <tbody class="divide-y divide-luxury">
+                    <tr><td class="py-3 font-bold text-white">BTC/USDT</td><td class="py-3" id="tab-p-btc">$66,400.00</td><td class="py-3 text-green-500 font-bold" id="tab-c-btc">+0.00%</td></tr>
+                    <tr><td class="py-3 font-bold text-white">ETH/USDT</td><td class="py-3" id="tab-p-eth">$1,810.00</td><td class="py-3 text-green-500 font-bold" id="tab-c-eth">+0.00%</td></tr>
+                    <tr><td class="py-3 font-bold text-white">BNB/USDT</td><td class="py-3" id="tab-p-bnb">$624.00</td><td class="py-3 text-green-500 font-bold" id="tab-c-bnb">+0.00%</td></tr>
                 </tbody>
             </table>
         </div>
@@ -155,21 +154,36 @@
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
             <div class="lg:col-span-2 bg-binance-dark p-4 rounded-xl border border-luxury">
                 <div class="flex justify-between items-center mb-3">
-                    <span class="text-sm font-bold text-white">BTC/USDT Trading View</span>
-                    <span class="text-xs font-mono text-gold" id="live-index-price">$66,742.10</span>
+                    <span class="text-sm font-bold text-white">BTC/USDT Live Trading Terminal</span>
+                    <span class="text-xs font-mono text-gold" id="live-index-price">$66,400.00</span>
                 </div>
-                <div id="canvas-container" class="w-full h-[320px] bg-[#12161a] rounded-lg flex items-center justify-center text-xs text-gray-500 border border-luxury">
-                    [ TradingView Canvas Terminal Activated ]
+                
+                <div class="w-full h-[280px] bg-[#12161a] rounded-xl border border-luxury p-4 flex flex-col justify-between relative overflow-hidden">
+                    <div class="absolute inset-0 opacity-10 flex flex-col justify-between p-2 pointer-events-none">
+                        <div class="border-b border-gray-500 w-full"></div>
+                        <div class="border-b border-gray-500 w-full"></div>
+                        <div class="border-b border-gray-500 w-full"></div>
+                    </div>
+                    <div class="flex items-end justify-around h-full pt-8 pb-4 relative z-10">
+                        <div class="w-3 bg-red-500 h-2/3 relative flex justify-center"><div class="absolute w-0.5 bg-red-500 h-24 -top-4"></div></div>
+                        <div class="w-3 bg-green-500 h-3/4 relative flex justify-center"><div class="absolute w-0.5 bg-green-500 h-28 -top-2"></div></div>
+                        <div class="w-3 bg-red-500 h-1/2 relative flex justify-center"><div class="absolute w-0.5 bg-red-500 h-20 -top-6"></div></div>
+                        <div class="w-3 bg-green-500 h-4/5 relative flex justify-center"><div class="absolute w-0.5 bg-green-500 h-32 -top-1"></div></div>
+                    </div>
+                    <div class="flex justify-between text-[10px] text-gray-500 font-mono">
+                        <span>18:00</span><span>18:15</span><span>18:30</span><span>18:45</span>
+                    </div>
                 </div>
             </div>
+            
             <div class="bg-binance-dark p-4 rounded-xl border border-luxury text-xs space-y-2">
                 <h3 class="font-bold text-white uppercase border-b border-luxury pb-1">Order Console</h3>
-                <div class="flex justify-between text-red-500 font-mono"><span>66780.5</span><span>0.1420</span></div>
-                <div class="flex justify-between text-red-500 font-mono"><span>66765.0</span><span>1.5032</span></div>
-                <div class="text-center font-bold text-white py-1 bg-[#12161a] rounded">66,742.10 USDT</div>
-                <div class="flex justify-between text-green-500 font-mono"><span>66720.0</span><span>0.8942</span></div>
-                <div class="flex justify-between text-green-500 font-mono"><span>66705.5</span><span>2.1104</span></div>
-                <button onclick="alert('Trade Order Processed!')" class="w-full bg-green-500 text-black font-bold py-2 rounded mt-2">Instant Buy Order</button>
+                <div class="flex justify-between text-red-500 font-mono"><span>66450.5</span><span>0.1420</span></div>
+                <div class="flex justify-between text-red-500 font-mono"><span>66425.0</span><span>1.5032</span></div>
+                <div class="text-center font-bold text-white py-1 bg-[#12161a] rounded font-mono" id="orderbook-mid-price">66,400.00 USDT</div>
+                <div class="flex justify-between text-green-500 font-mono"><span>66375.0</span><span>0.8942</span></div>
+                <div class="flex justify-between text-green-500 font-mono"><span>66350.5</span><span>2.1104</span></div>
+                <button onclick="alert('Limit order processed!')" class="w-full bg-green-500 text-black font-bold py-2 rounded mt-2">Instant Buy Order</button>
             </div>
         </div>
     </div>
@@ -202,66 +216,74 @@
     </div>
 
     <script>
-        // Solid Navigation Router
+        // Global variables to store live prices
+        let currentBtcPrice = 66400;
+        let currentEthPrice = 1810;
+        let currentBnbPrice = 624;
+
+        // Smart Page Router
         function switchPage(id) {
             document.querySelectorAll('.tab-content').forEach(p => p.classList.remove('active'));
             document.getElementById(`page-${id}`).classList.add('active');
             
-            // Auto Color Bottom Buttons
             document.querySelectorAll('.m-btn').forEach(b => b.classList.remove('text-gold', 'font-bold'));
-            // Visual feedback loop
         }
 
-        // Guaranteed Live Background Data Stream
-        async function fetchBinanceData() {
-            try {
-                const res = await fetch('https://api.binance.com/api/v3/ticker/24hr');
-                const data = await res.json();
-                
-                const coins = ['BTCUSDT', 'ETHUSDT', 'BNBUSDT'];
-                coins.forEach(c => {
-                    const match = data.find(i => i.symbol === c);
-                    if(match) {
-                        const name = c.replace('USDT', '').toLowerCase();
-                        const p = parseFloat(match.lastPrice).toFixed(2);
-                        const ch = parseFloat(match.priceChangePercent).toFixed(2);
-                        const sign = ch >= 0 ? '+' : '';
-                        const color = ch >= 0 ? 'text-green-500' : 'text-red-500';
+        // 🚀 BULLETPROOF BINANCE WEBSOCKET INTEGRATION
+        function initBinanceWebSocket() {
+            // Using official multi-stream websocket (safe from CORS blocks)
+            const wsUrl = "wss://stream.binance.com:9443/ws/btcusdt@ticker/ethusdt@ticker/bnbusdt@ticker";
+            const ws = new WebSocket(wsUrl);
 
-                        // Main Home Update
-                        if(document.getElementById(`home-p-${name}`)) {
-                            document.getElementById(`home-p-${name}`).innerText = `$${p}`;
-                            document.getElementById(`home-c-${name}`).innerText = `${sign}${ch}%`;
-                            document.getElementById(`home-c-${name}`).className = `text-xs ${color} font-bold`;
+            ws.onmessage = (event) => {
+                const msg = JSON.parse(event.data);
+                
+                if (msg.s) {
+                    const pair = msg.s; // e.g. "BTCUSDT"
+                    const price = parseFloat(msg.c).toFixed(2);
+                    const change = parseFloat(msg.P).toFixed(2);
+                    const sign = change >= 0 ? '+' : '';
+                    const color = change >= 0 ? 'text-green-500' : 'text-red-500';
+
+                    if (pair === 'BTCUSDT') {
+                        currentBtcPrice = price;
+                        updateDomElements('btc', price, change, sign, color);
+                        if(document.getElementById('live-index-price')) {
+                            document.getElementById('live-index-price').innerText = `$${price} (${sign}${change}%)`;
                         }
-                        // Secondary App Screens Update
-                        if(document.getElementById(`tab-p-${name}`)) {
-                            document.getElementById(`tab-p-${name}`).innerText = `$${p}`;
-                            document.getElementById(`tab-c-${name}`).innerText = `${sign}${ch}%`;
-                            document.getElementById(`tab-c-${name}`).className = `py-3 ${color} font-bold`;
+                        if(document.getElementById('orderbook-mid-price')) {
+                            document.getElementById('orderbook-mid-price').innerText = `${price} USDT`;
                         }
-                        if(name === 'btc' && document.getElementById('live-index-price')) {
-                            document.getElementById('live-index-price').innerText = `$${p} (${sign}${ch}%)`;
-                        }
+                    } else if (pair === 'ETHUSDT') {
+                        currentEthPrice = price;
+                        updateDomElements('eth', price, change, sign, color);
+                    } else if (pair === 'BNBUSDT') {
+                        currentBnbPrice = price;
+                        updateDomElements('bnb', price, change, sign, color);
                     }
-                });
-            } catch(e) {
-                console.log("Network safe fallback mode active.");
+                }
+            };
+
+            ws.onerror = (err) => console.log("WebSocket connection breakdown, shifting to offline mode.");
+            ws.onclose = () => setTimeout(initBinanceWebSocket, 5000); // Auto-reconnect if dropped
+        }
+
+        function updateDomElements(coin, price, change, sign, color) {
+            // Update Home Page Rows
+            if(document.getElementById(`home-p-${coin}`)) {
+                document.getElementById(`home-p-${coin}`).innerText = `$${price}`;
+                document.getElementById(`home-c-${coin}`).innerText = `${sign}${change}%`;
+                document.getElementById(`home-c-${coin}`).className = `text-xs ${color} font-bold`;
             }
+            // Update Dedicated Market Screen Rows
+            if(document.getElementById(`tab-p-${coin}`)) {
+                document.getElementById(`tab-p-${coin}`).innerText = `$${price}`;
+                document.getElementById(`tab-c-${coin}`).innerText = `${sign}${change}%`;
+                document.getElementById(`tab-c-${coin}`).className = `py-3 ${color} font-bold`;
+            }
+            calculateTokens();
         }
 
         function calculateTokens() {
             const spend = parseFloat(document.getElementById('buy-amount').value) || 0;
-            const token = document.getElementById('token-select').value;
-            let rate = token === 'BTC' ? 66742 : token === 'ETH' ? 1811 : 625;
-            document.getElementById('receive-display').innerText = `${(spend/rate).toFixed(5)} ${token}`;
-        }
-
-        window.onload = () => {
-            fetchBinanceData();
-            setInterval(fetchBinanceData, 2500);
-            calculateTokens();
-        };
-    </script>
-</body>
-</html>
+            const token =
