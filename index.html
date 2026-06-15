@@ -1,71 +1,88 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>BIOTTUS EXCHANGE</title>
-<script src="https://unpkg.com/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js"></script>
 <style>
-:root{
---bg:#0b0e11;--bg2:#181a20;--card:#1e2329;--border:#2b3139;
---text:#eaecef;--text2:#848e9c;--yellow:#f0b90b;--green:#0ecb81;--red:#f6465d;
-}
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;}
-.header{background:#12161c;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:1000;}
-.logo-area{display:flex;align-items:center;gap:10px;}
-.logo{width:40px;height:40px;background:conic-gradient(from 0deg,#FFD700,#FFA500,#FF8C00,#FFD700);clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);display:flex;align-items:center;justify-content:center;color:#000;font-weight:900;font-size:20px;box-shadow:0 0 20px rgba(240,185,11,0.6);animation:rotate 4s linear infinite;}
-@keyframes rotate{to{transform:rotate(360deg);}}
-.title{font-size:20px;font-weight:800;letter-spacing:-0.5px;}
-.title span{color:var(--yellow);}
-.header-right{display:flex;gap:16px;align-items:center;}
-.icon-btn{font-size:20px;color:var(--text2);cursor:pointer;}
-.desktop-nav{display:none;gap:30px;}
-.desktop-nav a{color:var(--text2);text-decoration:none;font-weight:600;font-size:14px;cursor:pointer;}
-.desktop-nav a.active,.desktop-nav a:hover{color:var(--text);}
-.mobile-nav{position:fixed;bottom:0;left:0;right:0;background:#12161c;border-top:1px solid var(--border);display:flex;z-index:1000;}
-.nav-item{flex:1;text-align:center;padding:8px 0 6px;color:var(--text2);font-size:10px;font-weight:500;cursor:pointer;}
-.nav-item.active{color:var(--yellow);}
-.nav-item span{font-size:22px;display:block;margin-bottom:2px;}
-.container{max-width:1400px;margin:0 auto;padding:16px 12px 80px;}
-.card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:12px;}
-.balance-title{font-size:12px;color:var(--text2);}
-.balance{font-size:32px;font-weight:700;margin:6px 0;letter-spacing:-0.5px;}
-.pnl{font-size:13px;color:var(--green);font-weight:600;}
-.btn-row{display:flex;gap:8px;margin-top:12px;}
-.btn{flex:1;background:var(--yellow);color:#000;border:none;padding:12px;border-radius:8px;font-weight:700;font-size:14px;cursor:pointer;}
-.btn-outline{background:var(--card);color:var(--text);border:1px solid var(--border);}
-.btn-buy{background:var(--green);color:#fff;}
-.btn-sell{background:var(--red);color:#fff;}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
-.grid-item{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 8px;text-align:center;font-size:12px;color:var(--text2);font-weight:500;cursor:pointer;}
-.grid-icon{font-size:20px;margin-bottom:6px;display:block;}
-.list-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
-.list-title{font-weight:700;font-size:15px;}
-.view-all{color:var(--yellow);font-size:12px;font-weight:600;text-decoration:none;cursor:pointer;}
-.coin-row{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid rgba(43,49,57,0.5);cursor:pointer;}
-.coin-row:last-child{border:none;}
-.coin-left{display:flex;align-items:center;gap:10px;}
-.coin-icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#000;}
-.coin-pair{font-weight:600;font-size:14px;}
-.coin-name{font-size:11px;color:var(--text2);}
-.coin-right{text-align:right;}
-.price{font-weight:600;font-size:15px;}
-.change{display:inline-block;padding:4px 8px;border-radius:4px;font-size:12px;font-weight:700;margin-top:4px;}
-.change-up{background:rgba(14,203,129,0.1);color:var(--green);}
-.change-down{background:rgba(246,70,93,0.1);color:var(--red);}
-.page{display:none;}
-.page.active{display:block;}
-.chart-container{height:300px;margin:12px 0;}
-.trade-box{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px;}
-.input-group{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:10px;}
-.input-group label{font-size:11px;color:var(--text2);display:block;margin-bottom:4px;}
-.input-group input{width:100%;background:transparent;border:none;color:var(--text);font-size:14px;font-weight:600;outline:none;}
-@media (min-width: 768px){
- .mobile-nav{display:none;}
- .desktop-nav{display:flex;}
- .container{display:grid;grid-template-columns:1fr 380px;gap:16px;padding:20px 20px 20px;}
- .main-col{grid-column:1;}
- .side-col{grid-column:2;}
- .grid{grid-template-columns:repeat(2,1fr);}
- .header{padding
+body{margin:0;background:#0b0e11;color:#eaecef;font-family:Arial;}
+.header{background:#12161c;padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #2b3139;}
+.logo{width:40px;height:40px;background:linear-gradient(135deg,#FFD700,#FFA500);clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);display:flex;align-items:center;justify-content:center;color:#000;font-weight:900;font-size:20px;}
+.title{font-size:20px;font-weight:800;} .title span{color:#f0b90b;}
+.container{max-width:430px;margin:0 auto;padding:12px 12px 80px;}
+.card{background:#181a20;border:1px solid #2b3139;border-radius:12px;padding:16px;margin-bottom:12px;}
+.balance{font-size:32px;font-weight:700;margin:8px 0;}
+.green{color:#0ecb81;font-weight:700;}
+.btn{width:100%;background:#f0b90b;color:#000;border:none;padding:12px;border-radius:8px;font-weight:700;font-size:14px;margin-top:12px;}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+.grid-item{background:#1e2329;border:1px solid #2b3139;border-radius:10px;padding:16px 8px;text-align:center;font-size:13px;color:#848e9c;font-weight:600;}
+.item{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid #2b3139;}
+.item:last-child{border:none;}
+.coin-icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#000;}
+.nav{position:fixed;bottom:0;left:0;right:0;background:#12161c;border-top:1px solid #2b3139;display:flex;max-width:430px;margin:0 auto;}
+.nav-item{flex:1;text-align:center;padding:10px 0 8px;color:#848e9c;font-size:10px;}
+.nav-item.active{color:#f0b90b;}
+.nav-item span{font-size:22px;display:block;}
+</style>
+</head>
+<body>
+<div class="header">
+    <div class="logo">B</div>
+    <div class="title">BIOTTUS <span>EXCHANGE</span></div>
+</div>
+<div class="container">
+    <div class="card">
+        <div style="font-size:12px;color:#848e9c;">Estimated Balance</div>
+        <div class="balance">$24,592.84</div>
+        <div class="green">+ $847.21 (+3.56%) Today</div>
+        <button class="btn">Deposit</button>
+    </div>
+    <div class="card">
+        <div class="grid">
+            <div class="grid-item">📈<br>Trade</div>
+            <div class="grid-item">📊<br>Futures</div>
+            <div class="grid-item">🔄<br>Convert</div>
+            <div class="grid-item">👛<br>Wallet</div>
+        </div>
+    </div>
+    <div class="card">
+        <div style="font-weight:700;margin-bottom:12px;font-size:15px;">Markets</div>
+        <div class="item">
+            <div style="display:flex;align-items:center;gap:10px;">
+                <div class="coin-icon" style="background:#F7931A;">₿</div>
+                <div><div style="font-weight:600;">BTC/USDT</div><div style="font-size:11px;color:#848e9c;">Bitcoin</div></div>
+            </div>
+            <div style="text-align:right;"><div style="font-weight:600;">66,450.50</div><div class="green">+3.54%</div></div>
+        </div>
+        <div class="item">
+            <div style="display:flex;align-items:center;gap:10px;">
+                <div class="coin-icon" style="background:#627EEA;">Ξ</div>
+                <div><div style="font-weight:600;">ETH/USDT</div><div style="font-size:11px;color:#848e9c;">Ethereum</div></div>
+            </div>
+            <div style="text-align:right;"><div style="font-weight:600;">1,812.20</div><div class="green">+2.81%</div></div>
+        </div>
+        <div class="item">
+            <div style="display:flex;align-items:center;gap:10px;">
+                <div class="coin-icon" style="background:#F0B90B;">B</div>
+                <div><div style="font-weight:600;">BNB/USDT</div><div style="font-size:11px;color:#848e9c;">BNB</div></div>
+            </div>
+            <div style="text-align:right;"><div style="font-weight:600;">624.40</div><div class="green">+1.45%</div></div>
+        </div>
+        <div class="item">
+            <div style="display:flex;align-items:center;gap:10px;">
+                <div class="coin-icon" style="background:#14F195;">S</div>
+                <div><div style="font-weight:600;">SOL/USDT</div><div style="font-size:11px;color:#848e9c;">Solana</div></div>
+            </div>
+            <div style="text-align:right;"><div style="font-weight:600;">145.30</div><div class="green">+8.92%</div></div>
+        </div>
+    </div>
+</div>
+<div class="nav">
+    <div class="nav-item active"><span>🏠</span>Home</div>
+    <div class="nav-item"><span>📊</span>Markets</div>
+    <div class="nav-item"><span>📈</span>Trade</div>
+    <div class="nav-item"><span>📉</span>Futures</div>
+    <div class="nav-item"><span>👛</span>Assets</div>
+</div>
+</body>
+</html>
