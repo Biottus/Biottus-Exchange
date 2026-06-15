@@ -1,36 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>BIOTTUS EXCHANGE</title>
 <style>
-body{margin:0;background:#0b0e11;color:#eaecef;font-family:Arial,sans-serif;}
-.header{background:#12161c;padding:12px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #2b3139;position:sticky;top:0;}
-.logo{width:32px;height:32px;background:linear-gradient(135deg,#FFD700,#D4AF37);clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);display:flex;align-items:center;justify-content:center;color:#000;font-weight:900;font-size:18px;}
-.title{font-size:18px;font-weight:700;}
-.title span{color:#f0b90b;}
-.container{max-width:430px;margin:0 auto;padding:12px 12px 80px;}
+body{margin:0;background:#0b0e11;color:#eaecef;font-family:Arial;}
+.header{background:#12161c;padding:12px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #2b3139;}
+.logo{width:32px;height:32px;background:linear-gradient(135deg,#FFD700,#D4AF37);clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);display:flex;align-items:center;justify-content:center;color:#000;font-weight:900;}
+.title{font-size:18px;font-weight:700;} .title span{color:#f0b90b;}
+.container{max-width:430px;margin:0 auto;padding:12px;}
 .card{background:#181a20;border:1px solid #2b3139;border-radius:12px;padding:16px;margin-bottom:12px;}
 .balance{font-size:28px;font-weight:700;margin:8px 0;}
-.pnl{color:#0ecb81;font-size:13px;font-weight:600;}
-.btn{width:100%;background:#f0b90b;color:#000;border:none;padding:12px;border-radius:8px;font-weight:700;margin-top:12px;}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;text-align:center;font-size:12px;}
-.grid div{background:#1e2329;padding:14px 8px;border-radius:10px;border:1px solid #2b3139;}
-.list-item{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid #2b3139;}
-.list-item:last-child{border:none;}
-.coin{display:flex;align-items:center;gap:10px;}
-.icon{width:28px;height:28px;border-radius:50%;background:#2b3139;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;}
-.price{font-weight:600;}
-.chg{font-size:12px;padding:4px 8px;border-radius:4px;font-weight:700;}
-.up{background:rgba(14,203,129,0.1);color:#0ecb81;}
-.down{background:rgba(246,70,93,0.1);color:#f6465d;}
-.nav{position:fixed;bottom:0;left:0;right:0;background:#12161c;border-top:1px solid #2b3139;display:flex;max-width:430px;margin:0 auto;}
-.nav-btn{flex:1;text-align:center;padding:8px 0;font-size:10px;color:#848e9c;}
-.nav-btn.active{color:#f0b90b;}
-.nav-btn div{font-size:22px;margin-bottom:2px;}
-.page{display:none;}
-.page.active{display:block;}
+.item{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #2b3139;}
+.green{color:#0ecb81;font-weight:700;}
 </style>
 </head>
 <body>
@@ -38,55 +21,18 @@ body{margin:0;background:#0b0e11;color:#eaecef;font-family:Arial,sans-serif;}
     <div class="logo">B</div>
     <div class="title">BIOTTUS <span>EXCHANGE</span></div>
 </div>
-
 <div class="container">
-    <div id="home" class="page active">
-        <div class="card">
-            <div style="font-size:12px;color:#848e9c;">Total Balance</div>
-            <div class="balance">$24,592.84</div>
-            <div class="pnl">+ $847.21 (+3.56%) Today</div>
-            <button class="btn">Deposit</button>
-        </div>
-        
-        <div class="card">
-            <div class="grid">
-                <div onclick="showPage('swap')">🔄<br>Swap</div>
-                <div onclick="showPage('trade')">📈<br>Trade</div>
-                <div onclick="showPage('markets')">📊<br>Markets</div>
-                <div onclick="showPage('wallet')">👛<br>Wallet</div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div style="font-weight:700;margin-bottom:12px;">Markets</div>
-            <div id="coinList"></div>
-        </div>
+    <div class="card">
+        <div style="font-size:12px;color:#848e9c;">Total Balance</div>
+        <div class="balance">$24,592.84</div>
+        <div class="green">+ $847.21 Today</div>
     </div>
-
-    <div id="markets" class="page">
-        <div class="card">
-            <div style="font-weight:700;margin-bottom:12px;">All Markets</div>
-            <div id="marketList"></div>
-        </div>
+    <div class="card">
+        <div style="font-weight:700;margin-bottom:12px;">Markets</div>
+        <div class="item"><div><b>BTC/USDT</b><br><span style="font-size:11px;color:#848e9c;">Bitcoin</span></div><div style="text-align:right;"><div>66,450.50</div><div class="green">+3.54%</div></div></div>
+        <div class="item"><div><b>ETH/USDT</b><br><span style="font-size:11px;color:#848e9c;">Ethereum</span></div><div style="text-align:right;"><div>1,812.20</div><div class="green">+2.81%</div></div></div>
+        <div class="item"><div><b>BNB/USDT</b><br><span style="font-size:11px;color:#848e9c;">BNB</span></div><div style="text-align:right;"><div>624.40</div><div class="green">+1.45%</div></div></div>
     </div>
-
-    <div id="trade" class="page">
-        <div class="card">
-            <div style="font-weight:700;">BTC/USDT</div>
-            <div class="price" style="font-size:24px;color:#0ecb81;margin:8px 0;" id="livePrice">66,450.50</div>
-            <button class="btn" style="background:#0ecb81;">Buy BTC</button>
-        </div>
-    </div>
-
-    <div id="swap" class="page">
-        <div class="card">
-            <div style="font-weight:700;margin-bottom:12px;">Convert</div>
-            <button class="btn">Convert Now</button>
-        </div>
-    </div>
-
-    <div id="wallet" class="page">
-        <div class="card">
-            <div style="font-weight:700;margin-bottom:12px;">My Assets</div>
-            <div class="list-item">
-                <div class="coin"><div class="icon" style="background:#F7931A;color:#000;">₿</div>Bitcoin</div>
+</div>
+</body>
+</html>
