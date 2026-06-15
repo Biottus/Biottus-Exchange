@@ -2,91 +2,126 @@
 <html>
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Biottus Exchange</title>
+<title>BIOTTUS V2 LIVE</title>
 <style>
 *{margin:0;box-sizing:border-box;}
 body{background:#0b0e11;color:#eaecef;font-family:Arial;}
-.h{background:#12161c;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #2b3139;}
-.hl{display:flex;align-items:center;gap:12px;}
-.logo{width:44px;height:44px;background:#f0b90b;color:#000;display:flex;align-items:center;justify-content:center;font-weight:900;border-radius:8px;font-size:22px;}
-.t{font-size:22px;font-weight:800;color:#f0b90b;}
-.dnav{display:flex;gap:30px;}
-.dnav a{color:#848e9c;text-decoration:none;font-weight:600;font-size:14px;}
-.dnav a.a{color:#eaecef;}
-.wrap{max-width:1400px;margin:0 auto;padding:20px;display:grid;grid-template-columns:1fr 380px;gap:16px;}
+.h{background:#12161c;padding:16px 24px;border-bottom:1px solid #2b3139;position:sticky;top:0;}
+.logo{display:inline-block;width:44px;height:44px;background:#f0b90b;color:#000;text-align:center;line-height:44px;font-weight:900;border-radius:8px;font-size:22px;}
+.t{color:#f0b90b;font-size:22px;font-weight:800;display:inline-block;margin-left:12px;vertical-align:middle;}
+.nav{display:inline-block;margin-left:40px;}
+.nav a{color:#848e9c;text-decoration:none;font-weight:600;margin:0 15px;font-size:14px;}
+.nav a:hover,.nav a.a{color:#fff;}
+.wrap{max-width:1400px;margin:20px auto;padding:0 20px;}
+.l{float:left;width:65%;}
+.r{float:right;width:33%;}
 .c{background:#181a20;border:1px solid #2b3139;border-radius:12px;padding:20px;margin-bottom:16px;}
-.lb{font-size:12px;color:#848e9c;}
 .b{font-size:40px;font-weight:700;margin:8px 0;}
 .g{color:#0ecb81;font-weight:600;}
-.btn{background:#f0b90b;color:#000;border:none;width:100%;padding:12px;border-radius:8px;font-weight:700;margin-top:12px;cursor:pointer;}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
-.gi{background:#1e2329;border:1px solid #2b3139;border-radius:10px;padding:16px 8px;text-align:center;font-size:13px;color:#848e9c;font-weight:600;}
-.gi span{display:block;font-size:20px;margin-bottom:4px;}
-.r{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid #2b3139;}
-.r:last-child{border:none;}
-.tt{font-weight:700;margin-bottom:12px;font-size:15px;}
+.btn{background:#f0b90b;color:#000;border:none;width:100%;padding:14px;border-radius:8px;font-weight:700;margin-top:12px;font-size:16px;cursor:pointer;text-decoration:none;display:block;text-align:center;}
+.box{background:#1e2329;padding:20px;border-radius:10px;text-align:center;}
+.page{display:none;}
+.page:target{display:block;}
+#home{display:block;}
+body:not(:has(:target)) #home{display:block;}
+.clear{clear:both;}
+table{width:100%;border-collapse:collapse;}
+td{padding:12px 0;border-bottom:1px solid #2b3139;}
+tr:last-child td{border:none;}
 </style>
 </head>
 <body>
 <div class="h">
-<div class="hl">
 <div class="logo">B</div>
 <div class="t">BIOTTUS EXCHANGE</div>
-<div class="dnav">
-<a class="a">Home</a>
-<a>Markets</a>
-<a>Trade</a>
-<a>Futures</a>
-<a>Wallet</a>
-</div>
+<div class="nav">
+<a href="#home" class="a">Home</a>
+<a href="#markets">Markets</a>
+<a href="#trade">Trade</a>
+<a href="#futures">Futures</a>
+<a href="#wallet">Wallet</a>
 </div>
 </div>
 
 <div class="wrap">
-<div>
+<!-- HOME PAGE -->
+<div id="home" class="page">
+<div class="l">
 <div class="c">
-<div class="lb">Total Balance</div>
+<div style="font-size:12px;color:#848e9c;">Total Balance</div>
 <div class="b">$24,592.84</div>
 <div class="g">+ $847.21 Today</div>
-<button class="btn">Deposit</button>
+<a href="#wallet" class="btn">Deposit</a>
+</div>
+<div class="c">
+<table cellpadding="10"><tr>
+<td width="25%"><a href="#trade" style="text-decoration:none;color:#848e9c;"><div class="box">Trade</div></a></td>
+<td width="25%"><a href="#futures" style="text-decoration:none;color:#848e9c;"><div class="box">Futures</div></a></td>
+<td width="25%"><div class="box">Convert</div></td>
+<td width="25%"><a href="#wallet" style="text-decoration:none;color:#848e9c;"><div class="box">Wallet</div></a></td>
+</tr></table>
+</div>
+</div>
+<div class="r">
+<div class="c">
+<div style="font-weight:700;margin-bottom:12px;">Top Gainers</div>
+<table>
+<tr><td>SOL/USDT</td><td align="right" class="g">+8.92%</td></tr>
+<tr><td>AVAX/USDT</td><td align="right" class="g">+5.67%</td></tr>
+<tr><td style="border:none;">BTC/USDT</td><td align="right" class="g" style="border:none;">+3.54%</td></tr>
+</table>
+</div>
+</div>
+<div class="clear"></div>
 </div>
 
+<!-- MARKETS PAGE -->
+<div id="markets" class="page">
 <div class="c">
-<div class="grid">
-<div class="gi"><span>T</span>Trade</div>
-<div class="gi"><span>F</span>Futures</div>
-<div class="gi"><span>C</span>Convert</div>
-<div class="gi"><span>W</span>Wallet</div>
+<div style="font-weight:700;margin-bottom:12px;font-size:18px;">All Markets</div>
+<table>
+<tr><td>BTC/USDT</td><td align="right" class="g">66450.50 +3.54%</td></tr>
+<tr><td>ETH/USDT</td><td align="right" class="g">1812.20 +2.81%</td></tr>
+<tr><td>BNB/USDT</td><td align="right" class="g">624.40 +1.45%</td></tr>
+<tr><td>SOL/USDT</td><td align="right" class="g">145.30 +8.92%</td></tr>
+<tr><td>XRP/USDT</td><td align="right" class="g">0.5820 +1.24%</td></tr>
+<tr><td style="border:none;">ADA/USDT</td><td align="right" class="g" style="border:none;">0.4521 +2.11%</td></tr>
+</table>
 </div>
 </div>
 
+<!-- TRADE PAGE -->
+<div id="trade" class="page">
 <div class="c">
-<div class="tt">Markets</div>
-<div class="r"><span>BTC/USDT</span><span class="g">66450.50</span></div>
-<div class="r"><span>ETH/USDT</span><span class="g">1812.20</span></div>
-<div class="r"><span>BNB/USDT</span><span class="g">624.40</span></div>
-<div class="r"><span>SOL/USDT</span><span class="g">145.30</span></div>
-<div class="r"><span>XRP/USDT</span><span class="g">0.5820</span></div>
-<div class="r" style="border:none;"><span>ADA/USDT</span><span class="g">0.4521</span></div>
+<div style="font-weight:700;margin-bottom:12px;font-size:18px;">Spot Trading</div>
+<div style="color:#848e9c;">BTC/USDT</div>
+<div class="b" style="font-size:32px;">66,450.50</div>
+<div class="g">+2,345.20 +3.54%</div>
+<a href="#wallet" class="btn" style="margin-top:20px;">Login to Trade</a>
 </div>
 </div>
 
-<div>
+<!-- FUTURES PAGE -->
+<div id="futures" class="page">
 <div class="c">
-<div class="tt">Top Gainers</div>
-<div class="r"><span>SOL/USDT</span><span class="g">+8.92%</span></div>
-<div class="r"><span>AVAX/USDT</span><span class="g">+5.67%</span></div>
-<div class="r"><span>MATIC/USDT</span><span class="g">+4.21%</span></div>
-<div class="r" style="border:none;"><span>BTC/USDT</span><span class="g">+3.54%</span></div>
+<div style="font-weight:700;margin-bottom:12px;font-size:18px;">USDT Perpetual</div>
+<div style="color:#848e9c;">BTCUSDT</div>
+<div class="b" style="font-size:32px;">66,442.10</div>
+<div class="g">+3.51% 24h</div>
+<a href="#wallet" class="btn" style="margin-top:20px;">Login to Trade</a>
+</div>
 </div>
 
+<!-- WALLET PAGE -->
+<div id="wallet" class="page">
 <div class="c">
-<div class="tt">24h Volume</div>
-<div class="b" style="font-size:28px;">$1.2B</div>
-<div style="color:#848e9c;font-size:13px;">Total exchange volume</div>
+<div style="font-weight:700;margin-bottom:12px;font-size:18px;">Login Required</div>
+<div style="color:#848e9c;margin-bottom:20px;">Please login to view your wallet</div>
+<div class="btn" style="background:#1e2329;color:#eaecef;">Login with Email</div>
+<div class="btn" style="background:#1e2329;color:#eaecef;margin-top:10px;">Register Now</div>
 </div>
 </div>
+
 </div>
 </body>
 </html>
