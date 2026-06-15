@@ -5,36 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>BIOTTUS EXCHANGE</title>
     <style>
-        /* PURE NATIVE CSS - NO DEPENDENCIES */
         body { background-color: #12161a; color: #eaecef; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
-        .bg-dark { background-color: #181a20; }
-        .bg-card { background-color: #1e2329; }
-        .text-gold { color: #f0b90b; }
-        .bg-gold { background-color: #f0b90b; color: #000000; }
-        .border-luxury { border-top: 1px solid #2b3139; border-bottom: 1px solid #2b3139; }
-        
-        /* NAVBAR STYLE */
         .navbar { background-color: #181a20; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #2b3139; position: sticky; top: 0; z-index: 50; }
         .logo-box { background-color: #f0b90b; color: #000; font-weight: 900; width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; box-shadow: 0 4px 12px rgba(240,185,11,0.2); }
         .brand-name { font-size: 16px; font-weight: 900; tracking-content: 2px; text-transform: uppercase; margin-left: 10px; }
+        .text-gold { color: #f0b90b; }
         
-        /* SCREENS & ROUTER */
         .page-screen { display: none; padding: 16px; max-w: 480px; margin: 0 auto; box-sizing: border-box; }
         .page-screen.active { display: block; }
         
-        /* BALANCE CARD */
         .balance-card { background-color: #181a20; padding: 20px; border-radius: 16px; border: 1px solid #2b3139; position: relative; margin-bottom: 16px; }
         .balance-title { font-size: 12px; color: #848e9c; }
         .balance-amount { font-size: 30px; font-weight: 800; margin-top: 8px; }
         .balance-pnl { font-size: 12px; color: #0ecb81; font-weight: bold; margin-top: 4px; }
         .btn-add { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); background-color: #f0b90b; font-weight: bold; font-size: 12px; border: none; padding: 10px 16px; border-radius: 12px; cursor: pointer; }
         
-        /* GRID BUTTONS */
         .action-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; text-align: center; font-size: 11px; background-color: #181a20; padding: 12px; border-radius: 12px; border: 1px solid #2b3139; margin-bottom: 16px; }
         .grid-item { cursor: pointer; }
         .grid-icon { width: 40px; height: 40px; background-color: #2b3139; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 6px; font-size: 18px; }
         
-        /* CRYPTO LIST */
         .list-container { background-color: #181a20; padding: 16px; border-radius: 12px; border: 1px solid #2b3139; }
         .list-title { font-size: 14px; font-weight: bold; margin-bottom: 12px; border-bottom: 1px solid #2b3139; padding-bottom: 8px; }
         .crypto-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(43,49,57,0.5); cursor: pointer; }
@@ -45,13 +34,11 @@
         .text-green { color: #0ecb81; }
         .text-red { color: #f6465d; }
         
-        /* BOTTOM NAV BAR */
         .bottom-nav { background-color: #181a20; border-top: 1px solid #2b3139; position: fixed; bottom: 0; left: 0; right: 0; height: 56px; display: flex; justify-content: space-around; align-items: center; z-index: 50; max-width: 480px; margin: 0 auto; }
         .nav-btn { background: none; border: none; color: #848e9c; display: flex; flex-direction: column; align-items: center; font-size: 10px; cursor: pointer; font-weight: bold; }
         .nav-btn.active { color: #f0b90b; }
         .nav-btn span { font-size: 16px; margin-bottom: 2px; }
 
-        /* TRADE TERMINAL SPECIFIC */
         .trade-layout { display: grid; grid-template-columns: 2fr 3fr; gap: 10px; margin-top: 10px; }
         .orderbook-panel { background-color: #181a20; padding: 8px; border-radius: 10px; border: 1px solid #2b3139; font-family: monospace; font-size: 11px; }
         .ob-row { display: flex; justify-content: space-between; margin-bottom: 4px; }
@@ -60,180 +47,148 @@
         .input-box input { background: none; border: none; color: white; width: 70%; font-size: 14px; font-weight: bold; outline: none; }
         .btn-execute { width: 100%; background-color: #0ecb81; color: black; font-weight: bold; border: none; padding: 12px; border-radius: 8px; font-size: 13px; cursor: pointer; }
 
-        /* SWAP NODE */
         .swap-box { background-color: #181a20; padding: 20px; border-radius: 16px; border: 1px solid #2b3139; }
         .swap-select { width: 100%; background-color: #12161a; border: 1px solid #2b3139; color: white; padding: 12px; border-radius: 10px; font-weight: bold; font-size: 14px; margin-bottom: 12px; }
     </style>
 </head>
 <body>
 
-    <div id="auth-screen" style="position: fixed; inset: 0; bg-color: #12161a; background: #12161a; z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-        <div style="font-size: 40px; margin-bottom: 10px; background: rgba(240,185,11,0.1); padding: 15px; border-radius: 20px; border: 1px solid rgba(240,185,11,0.3);">🔒</div>
-        <h2 style="font-size: 20px; font-weight: bold; margin: 0 0 4px 0; color: white;">Welcome back!</h2>
-        <p style="font-size: 12px; color: #848e9c; margin: 0 0 24px 0;">en***@***.com</p>
-        <button onclick="bypassAuth()" style="background-color: #f0b90b; color: black; border: none; font-weight: bold; padding: 14px 28px; border-radius: 12px; font-size: 14px; cursor: pointer; box-shadow: 0 6px 20px rgba(240,185,11,0.25);">
-            Verify with Biottus Touch ID 👆
-        </button>
+    <div class="navbar">
+        <div style="display: flex; align-items: center;">
+            <div class="logo-box">⬢</div>
+            <div class="brand-name" style="color: white;">BIOTTUS <span class="text-gold">EXCHANGE</span></div>
+        </div>
+        <div style="font-size: 12px; color: #f0b90b; font-weight: bold; background: rgba(240,185,11,0.1); padding: 4px 8px; border-radius: 6px;">Live Node</div>
     </div>
 
-    <div id="app-core" style="display: none;">
-        
-        <div class="navbar">
-            <div style="display: flex; align-items: center;">
-                <div class="logo-box">⬢</div>
-                <div class="brand-name text-gold" style="color: white;">BIOTTUS <span class="text-gold">EXCHANGE</span></div>
-            </div>
-            <div style="font-size: 12px; color: #f0b90b; font-weight: bold; background: rgba(240,185,11,0.1); padding: 4px 8px; border-radius: 6px;">Live Node</div>
+    <div id="screen-home" class="page-screen active">
+        <div class="balance-card">
+            <div class="balance-title">Est. Total Value (USDT) 👁</div>
+            <div class="balance-amount">$342.09</div>
+            <div class="balance-pnl">Today's PNL +$12.05 (+3.65%) ▲</div>
+            <button class="btn-add" onclick="routeTo('buy')">Add Funds</button>
         </div>
 
-        <div id="screen-home" class="page-screen active">
-            <div class="balance-card">
-                <div class="balance-title">Est. Total Value (USDT) 👁</div>
-                <div class="balance-amount">$342.09</div>
-                <div class="balance-pnl">Today's PNL +$12.05 (+3.65%) ▲</div>
-                <button class="btn-add" onclick="routeTo('buy')">Add Funds</button>
-            </div>
-
-            <div class="action-grid">
-                <div class="grid-item" onclick="routeTo('buy')"><div class="grid-icon">🪙</div><p>Swap Node</p></div>
-                <div class="grid-item" onclick="routeTo('trade')"><div class="grid-icon">🔄</div><p>Trading</p></div>
-                <div class="grid-item" onclick="routeTo('markets')"><div class="grid-icon">📊</div><p>Markets</p></div>
-                <div class="grid-item" onclick="routeTo('assets')"><div class="grid-icon">💼</div><p>Assets</p></div>
-            </div>
-
-            <div class="list-container">
-                <div class="list-title">🔥 Hot Crypto Live Rates</div>
-                <div id="home-crypto-feed">
-                    </div>
-            </div>
+        <div class="action-grid">
+            <div class="grid-item" onclick="routeTo('buy')"><div class="grid-icon">🪙</div><p>Swap Node</p></div>
+            <div class="grid-item" onclick="routeTo('trade')"><div class="grid-icon">🔄</div><p>Trading</p></div>
+            <div class="grid-item" onclick="routeTo('markets')"><div class="grid-icon">📊</div><p>Markets</p></div>
+            <div class="grid-item" onclick="routeTo('assets')"><div class="grid-icon">💼</div><p>Assets</p></div>
         </div>
 
-        <div id="screen-markets" class="page-screen">
-            <div class="list-container">
-                <div class="list-title">📋 Global Spot Markets</div>
-                <div id="full-market-list">
-                    </div>
-            </div>
+        <div class="list-container">
+            <div class="list-title">🔥 Hot Crypto Live Rates</div>
+            <div id="home-crypto-feed"></div>
+        </div>
+    </div>
+
+    <div id="screen-markets" class="page-screen">
+        <div class="list-container">
+            <div class="list-title">📋 Global Spot Markets</div>
+            <div id="full-market-list"></div>
+        </div>
+    </div>
+
+    <div id="screen-trade" class="page-screen">
+        <div style="background-color: #181a20; padding: 12px; border-radius: 12px; border: 1px solid #2b3139; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <span style="font-weight: bold; font-size: 14px;">ARKM/USDT</span>
+            <span class="text-gold" style="font-family: monospace; font-weight: bold;" id="terminal-top-price">$0.1385</span>
         </div>
 
-        <div id="screen-trade" class="page-screen">
-            <div style="background-color: #181a20; padding: 12px; border-radius: 12px; border: 1px solid #2b3139; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                <span style="font-weight: bold; font-size: 14px;">ARKM/USDT</span>
-                <span class="text-gold" style="font-family: monospace; font-weight: bold;" id="terminal-top-price">$0.1385</span>
+        <div class="trade-layout">
+            <div class="orderbook-panel">
+                <div style="color: #f6465d;" class="ob-row"><span>0.1389</span><span id="ob-v1">45.2K</span></div>
+                <div style="color: #f6465d;" class="ob-row"><span>0.1387</span><span id="ob-v2">18.1K</span></div>
+                <div style="text-align: center; font-weight: bold; color: white; padding: 4px 0; background: #12161a; border-radius: 4px; margin: 4px 0;" id="ob-mid-price">0.1385</div>
+                <div style="color: #0ecb81;" class="ob-row"><span>0.1383</span><span id="ob-v3">82.4K</span></div>
+                <div style="color: #0ecb81;" class="ob-row"><span>0.1381</span><span id="ob-v4">14.9K</span></div>
             </div>
 
-            <div class="trade-layout">
-                <div class="orderbook-panel">
-                    <div style="color: #f6465d;" class="ob-row"><span>0.1389</span><span id="ob-v1">45.2K</span></div>
-                    <div style="color: #f6465d;" class="ob-row"><span>0.1387</span><span id="ob-v2">18.1K</span></div>
-                    <div style="text-align: center; font-weight: bold; color: white; padding: 4px 0; background: #12161a; border-radius: 4px; margin: 4px 0;" id="ob-mid-price">0.1385</div>
-                    <div style="color: #0ecb81;" class="ob-row"><span>0.1383</span><span id="ob-v3">82.4K</span></div>
-                    <div style="color: #0ecb81;" class="ob-row"><span>0.1381</span><span id="ob-v4">14.9K</span></div>
+            <div class="trade-form">
+                <div style="display: flex; background: #12161a; border-radius: 6px; overflow: hidden; margin-bottom: 10px; text-align: center; font-size: 12px; font-weight: bold;">
+                    <div style="width: 50%; background: #0ecb81; color: black; padding: 6px 0;">Buy</div>
+                    <div style="width: 50%; color: #848e9c; padding: 6px 0;">Sell</div>
                 </div>
-
-                <div class="trade-form">
-                    <div style="display: flex; background: #12161a; border-radius: 6px; overflow: hidden; margin-bottom: 10px; text-align: center; font-size: 12px; font-weight: bold;">
-                        <div style="width: 50%; background: #0ecb81; color: black; padding: 6px 0;">Buy</div>
-                        <div style="width: 50%; color: #848e9c; padding: 6px 0;">Sell</div>
-                    </div>
-                    <div class="input-box">
-                        <input type="text" id="trade-price-box" value="0.1385" readonly>
-                        <span style="color: #848e9c;">USDT</span>
-                    </div>
-                    <button class="btn-execute" onclick="alert('Spot Order executed successfully!')">Buy ARKM</button>
-                </div>
-            </div>
-
-            <div class="list-container" style="margin-top: 14px;">
-                <div style="font-size: 12px; font-weight: bold; margin-bottom: 8px;">ARKM/USDT Live Trend Grid</div>
-                <div style="width: 100%; height: 100px; background: #12161a; border-radius: 8px; border: 1px solid #2b3139; display: flex; align-items: end; justify-content: space-around; padding: 10px; box-sizing: border-box;">
-                    <div style="width: 12px; background: #0ecb81; height: 30px; border-radius: 2px 2px 0 0;"></div>
-                    <div style="width: 12px; background: #0ecb81; height: 55px; border-radius: 2px 2px 0 0;"></div>
-                    <div style="width: 12px; background: #0ecb81; height: 40px; border-radius: 2px 2px 0 0;"></div>
-                    <div style="width: 12px; background: #0ecb81; height: 75px; border-radius: 2px 2px 0 0;"></div>
-                    <div style="width: 12px; background: #0ecb81; height: 90px; border-radius: 2px 2px 0 0;"></div>
-                </div>
-            </div>
-        </div>
-
-        <div id="screen-buy" class="page-screen">
-            <div class="swap-box">
-                <div class="list-title">🪙 Biottus Swap Engine</div>
-                <div style="font-size: 12px; color: #848e9c; margin-bottom: 4px;">Spend (USDT)</div>
                 <div class="input-box">
-                    <input type="number" id="swap-input" value="200" oninput="runSwapCalc()">
+                    <input type="text" id="trade-price-box" value="0.1385" readonly>
                     <span style="color: #848e9c;">USDT</span>
                 </div>
-                <div style="font-size: 12px; color: #848e9c; margin-bottom: 4px;">Convert Asset</div>
-                <select id="swap-select" class="swap-select" onchange="runSwapCalc()">
-                    <option value="BOME">Book of Meme (BOME)</option>
-                    <option value="ARKM">Arkham (ARKM)</option>
-                    <option value="PNUT">Peanut Squirrel (PNUT)</option>
-                    <option value="DOGE">Dogecoin (DOGE)</option>
-                </select>
-                <div class="input-box" style="background-color: #12161a; font-size: 13px; color: #848e9c;">
-                    <span>Estimated Receive:</span>
-                    <span class="text-gold" id="swap-output-box">Calculating...</span>
-                </div>
-                <button class="btn-execute" style="background-color: #f0b90b;" onclick="alert('Asset converted instantly!')">Execute Swap Exchange</button>
+                <button class="btn-execute" onclick="alert('Spot Order executed successfully!')">Buy ARKM</button>
             </div>
         </div>
 
-        <div id="screen-assets" class="page-screen">
-            <div class="list-container">
-                <div class="list-title">💼 Verified Spot Portfolio</div>
-                <div class="crypto-row">
-                    <div><p class="crypto-name">PNUT</p><p class="crypto-sub">Peanut Squirrel</p></div>
-                    <div><p class="crypto-price">1,491.00</p><p class="crypto-sub text-red">-130.15 USDT</p></div>
-                </div>
-                <div class="crypto-row">
-                    <div><p class="crypto-name">ARKM</p><p class="crypto-sub">Arkham Token</p></div>
-                    <div><p class="crypto-price">419.28</p><p class="crypto-sub text-green">+9.24 USDT</p></div>
-                </div>
-                <div class="crypto-row">
-                    <div><p class="crypto-name">BOME</p><p class="crypto-sub">Book of Meme</p></div>
-                    <div><p class="crypto-price">120,438.40</p><p class="crypto-sub text-red">-142.02 USDT</p></div>
-                </div>
+        <div class="list-container" style="margin-top: 14px;">
+            <div style="font-size: 12px; font-weight: bold; margin-bottom: 8px;">ARKM/USDT Live Trend Grid</div>
+            <div style="width: 100%; height: 100px; background: #12161a; border-radius: 8px; border: 1px solid #2b3139; display: flex; align-items: end; justify-content: space-around; padding: 10px; box-sizing: border-box;">
+                <div style="width: 12px; background: #0ecb81; height: 30px; border-radius: 2px 2px 0 0;"></div>
+                <div style="width: 12px; background: #0ecb81; height: 55px; border-radius: 2px 2px 0 0;"></div>
+                <div style="width: 12px; background: #0ecb81; height: 40px; border-radius: 2px 2px 0 0;"></div>
+                <div style="width: 12px; background: #0ecb81; height: 75px; border-radius: 2px 2px 0 0;"></div>
+                <div style="width: 12px; background: #0ecb81; height: 90px; border-radius: 2px 2px 0 0;"></div>
             </div>
         </div>
+    </div>
 
-        <div class="bottom-nav">
-            <button onclick="routeTo('home')" class="nav-btn active id-btn-home"><span>🏠</span>Home</button>
-            <button onclick="routeTo('markets')" class="nav-btn id-btn-markets"><span>📊</span>Markets</button>
-            <button onclick="routeTo('trade')" class="nav-btn id-btn-trade"><span>🔄</span>Trade</button>
-            <button onclick="routeTo('buy')" class="nav-btn id-btn-buy"><span>🪙</span>Swap</button>
-            <button onclick="routeTo('assets')" class="nav-btn id-btn-assets"><span>💼</span>Assets</button>
+    <div id="screen-buy" class="page-screen">
+        <div class="swap-box">
+            <div class="list-title">🪙 Biottus Swap Engine</div>
+            <div style="font-size: 12px; color: #848e9c; margin-bottom: 4px;">Spend (USDT)</div>
+            <div class="input-box">
+                <input type="number" id="swap-input" value="200" oninput="runSwapCalc()">
+                <span style="color: #848e9c;">USDT</span>
+            </div>
+            <div style="font-size: 12px; color: #848e9c; margin-bottom: 4px;">Convert Asset</div>
+            <select id="swap-select" class="swap-select" onchange="runSwapCalc()">
+                <option value="BOME">Book of Meme (BOME)</option>
+                <option value="ARKM">Arkham (ARKM)</option>
+                <option value="PNUT">Peanut Squirrel (PNUT)</option>
+                <option value="DOGE">Dogecoin (DOGE)</option>
+            </select>
+            <div class="input-box" style="background-color: #12161a; font-size: 13px; color: #848e9c;">
+                <span>Estimated Receive:</span>
+                <span class="text-gold" id="swap-output-box">Calculating...</span>
+            </div>
+            <button class="btn-execute" style="background-color: #f0b90b;" onclick="alert('Asset converted instantly!')">Execute Swap Exchange</button>
         </div>
+    </div>
 
+    <div id="screen-assets" class="page-screen">
+        <div class="list-container">
+            <div class="list-title">💼 Verified Spot Portfolio</div>
+            <div class="crypto-row">
+                <div><p class="crypto-name">PNUT</p><p class="crypto-sub">Peanut Squirrel</p></div>
+                <div><p class="crypto-price">1,491.00</p><p class="crypto-sub text-red">-130.15 USDT</p></div>
+            </div>
+            <div class="crypto-row">
+                <div><p class="crypto-name">ARKM</p><p class="crypto-sub">Arkham Token</p></div>
+                <div><p class="crypto-price">419.28</p><p class="crypto-sub text-green">+9.24 USDT</p></div>
+            </div>
+            <div class="crypto-row">
+                <div><p class="crypto-name">BOME</p><p class="crypto-sub">Book of Meme</p></div>
+                <div><p class="crypto-price">120,438.40</p><p class="crypto-sub text-red">-142.02 USDT</p></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <button onclick="routeTo('home')" class="nav-btn active id-btn-home"><span>🏠</span>Home</button>
+        <button onclick="routeTo('markets')" class="nav-btn id-btn-markets"><span>📊</span>Markets</button>
+        <button onclick="routeTo('trade')" class="nav-btn id-btn-trade"><span>🔄</span>Trade</button>
+        <button onclick="routeTo('buy')" class="nav-btn id-btn-buy"><span>🪙</span>Swap</button>
+        <button onclick="routeTo('assets')" class="nav-btn id-btn-assets"><span>💼</span>Assets</button>
     </div>
 
     <script>
-        // Bypass Verification overlay smoothly
-        function bypassAuth() {
-            document.getElementById('auth-screen').style.display = 'none';
-            document.getElementById('app-core').style.display = 'block';
-            initTradingEngine();
-        }
-
-        // Native System Router
         function routeTo(id) {
-            // Hide all pages
             var pages = document.getElementsByClassName('page-screen');
-            for(var i=0; i<pages.length; i++) {
-                pages[i].classList.remove('active');
-            }
-            // Show target
+            for(var i=0; i<pages.length; i++) { pages[i].classList.remove('active'); }
             document.getElementById('screen-' + id).classList.add('active');
             
-            // Adjust footer navigation states
             var btns = document.getElementsByClassName('nav-btn');
-            for(var j=0; j<btns.length; j++) {
-                btns[j].classList.remove('active');
-            }
+            for(var j=0; j<btns.length; j++) { btns[j].classList.remove('active'); }
             document.querySelector('.id-btn-' + id).classList.add('active');
         }
 
-        // Native Data Banks
         var memoryDb = {
             bome: { name: "Book of Meme", price: 0.0084, change: 12.21 },
             arkm: { name: "Arkham Token", price: 0.1385, change: 13.10 },
@@ -245,7 +200,6 @@
             buildHomeFeed();
             buildMarketsTab();
             runSwapCalc();
-            // Start lightning-fast background data generation pipeline
             setInterval(coreFlickerPipeline, 1000);
         }
 
@@ -279,31 +233,34 @@
 
         function coreFlickerPipeline() {
             Object.keys(memoryDb).forEach(function(key) {
-                // Generate flawless ticker simulation mutations natively
                 var variance = (Math.random() - 0.49) * (memoryDb[key].price * 0.015);
                 memoryDb[key].price = memoryDb[key].price + variance;
-                
                 var pStr = memoryDb[key].price < 1 ? memoryDb[key].price.toFixed(5) : memoryDb[key].price.toFixed(2);
-                
-                // Directly map rendering streams to view blocks
                 if(document.getElementById('h-p-' + key)) document.getElementById('h-p-' + key).innerText = '$' + pStr;
                 if(document.getElementById('m-p-' + key)) document.getElementById('m-p-' + key).innerText = '$' + pStr;
-                
                 if(key === 'arkm') {
                     if(document.getElementById('terminal-top-price')) document.getElementById('terminal-top-price').innerText = '$' + pStr;
                     if(document.getElementById('ob-mid-price')) document.getElementById('ob-mid-price').innerText = pStr;
                     if(document.getElementById('trade-price-box')) document.getElementById('trade-price-box').value = pStr;
                 }
             });
-            
-            // Fast flicker simulated orderbook weights
             if(document.getElementById('ob-v1')) document.getElementById('ob-v1').innerText = (Math.random() * 80 + 10).toFixed(1) + 'K';
             if(document.getElementById('ob-v2')) document.getElementById('ob-v2').innerText = (Math.random() * 50 + 5).toFixed(1) + 'K';
             if(document.getElementById('ob-v3')) document.getElementById('ob-v3').innerText = (Math.random() * 90 + 20).toFixed(1) + 'K';
-            
             runSwapCalc();
         }
 
         function runSwapCalc() {
             var val = parseFloat(document.getElementById('swap-input').value) || 0;
-            var key = document.getElementById('swap-select')
+            var key = document.getElementById('swap-select').value.toLowerCase();
+            var rate = memoryDb[key].price;
+            if(document.getElementById('swap-output-box')) {
+                document.getElementById('swap-output-box').innerText = (val / rate).toFixed(2) + ' ' + key.toUpperCase();
+            }
+        }
+
+        // Master Direct Trigger
+        initTradingEngine();
+    </script>
+</body>
+</html>
