@@ -32,9 +32,9 @@ td{padding:12px 0;border-bottom:1px solid #2b3139;}
 tr:last-child td{border:none;}
 tr:hover{background:#1e2329;cursor:pointer;}
 .chart{width:100%;height:240px;background:#0b0e11;border-radius:8px;margin-top:12px;position:relative;overflow:hidden;}
-.candle{position:absolute;bottom:30px;width:3px;background:#0ecb81;margin-left:2px;}
+.candle{position:absolute;bottom:30px;width:3px;background:#0ecb81;margin-left:2px;animation:grow 0.5s;}
 .candle.red{background:#f6465d;}
-.candle::before{content:'';position:absolute;left:1px;width:1px;background:inherit;}
+@keyframes grow{from{height:0;}to{}}
 .popup{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:999;}
 .popup:target{display:flex;align-items:center;justify-content:center;}
 .popc{background:#181a20;border:1px solid #2b3139;border-radius:12px;padding:24px;width:90%;max-width:400px;position:relative;}
@@ -45,6 +45,7 @@ tr:hover{background:#1e2329;cursor:pointer;}
 #trade:target ~ .h .nav a[href="#trade"],
 #futures:target ~ .h .nav a[href="#futures"],
 #wallet:target ~ .h .nav a[href="#wallet"]{color:#f0b90b;border-bottom:2px solid #f0b90b;}
+.price{transition:all 0.3s;}
 </style>
 </head>
 <body>
@@ -67,7 +68,7 @@ tr:hover{background:#1e2329;cursor:pointer;}
 <div class="c">
 <div style="font-size:12px;color:#848e9c;">Total Balance</div>
 <div class="b">$24,592.84</div>
-<div class="g">+ $847.21 Today</div>
+<div class="g" id="pnl">+ $847.21 Today</div>
 <a href="#login" class="btn">Deposit</a>
 </div>
 <div class="c">
@@ -79,19 +80,8 @@ tr:hover{background:#1e2329;cursor:pointer;}
 </tr></table>
 </div>
 <div class="c">
-<div style="font-weight:700;margin-bottom:12px;">BTC/USDT Chart</div>
-<div class="chart">
-<div class="candle" style="height:60px;left:5%;"></div>
-<div class="candle red" style="height:40px;left:8%;"></div>
-<div class="candle" style="height:80px;left:11%;"></div>
-<div class="candle" style="height:100px;left:14%;"></div>
-<div class="candle red" style="height:70px;left:17%;"></div>
-<div class="candle" style="height:120px;left:20%;"></div>
-<div class="candle" style="height:140px;left:23%;"></div>
-<div class="candle red" style="height:90px;left:26%;"></div>
-<div class="candle" style="height:160px;left:29%;"></div>
-<div class="candle" style="height:180px;left:32%;"></div>
-</div>
+<div style="font-weight:700;margin-bottom:12px;">BTC/USDT Chart - <span class="price g" id="btcprice">66,450.50</span></div>
+<div class="chart" id="chart"></div>
 </div>
 </div>
 <div class="r">
@@ -101,7 +91,7 @@ tr:hover{background:#1e2329;cursor:pointer;}
 <tr><td>SOL/USDT</td><td align="right" class="g">+8.92%</td></tr>
 <tr><td>AVAX/USDT</td><td align="right" class="g">+5.67%</td></tr>
 <tr><td>MATIC/USDT</td><td align="right" class="g">+4.21%</td></tr>
-<tr><td style="border:none;">BTC/USDT</td><td align="right" class="g" style="border:none;">+3.54%</td></tr>
+<tr><td style="border:none;">BTC/USDT</td><td align="right" class="g" style="border:none;" id="btcchange">+3.54%</td></tr>
 </table>
 </div>
 <div class="c">
@@ -118,12 +108,11 @@ tr:hover{background:#1e2329;cursor:pointer;}
 <div class="c">
 <div style="font-weight:700;margin-bottom:12px;font-size:18px;">All Markets</div>
 <table>
-<tr><td><b>BTC/USDT</b></td><td align="right">66450.50</td><td align="right" class="g">+3.54%</td></tr>
-<tr><td><b>ETH/USDT</b></td><td align="right">1812.20</td><td align="right" class="g">+2.81%</td></tr>
+<tr><td><b>BTC/USDT</b></td><td align="right" class="price" id="btc1">66450.50</td><td align="right" class="g" id="btc1c">+3.54%</td></tr>
+<tr><td><b>ETH/USDT</b></td><td align="right" class="price" id="eth1">1812.20</td><td align="right" class="g">+2.81%</td></tr>
 <tr><td><b>BNB/USDT</b></td><td align="right">624.40</td><td align="right" class="g">+1.45%</td></tr>
 <tr><td><b>SOL/USDT</b></td><td align="right">145.30</td><td align="right" class="g">+8.92%</td></tr>
-<tr><td><b>XRP/USDT</b></td><td align="right">0.5820</td><td align="right" class="red">-0.24%</td></tr>
-<tr><td style="border:none;"><b>ADA/USDT</b></td><td align="right" style="border:none;">0.4521</td><td align="right" class="g" style="border:none;">+2.11%</td></tr>
+<tr><td style="border:none;"><b>XRP/USDT</b></td><td align="right" style="border:none;">0.5820</td><td align="right" class="red" style="border:none;">-0.24%</td></tr>
 </table>
 </div>
 </div>
@@ -134,16 +123,8 @@ tr:hover{background:#1e2329;cursor:pointer;}
 <div class="c">
 <div style="font-weight:700;margin-bottom:12px;font-size:18px;">Spot Trading - BTC/USDT</div>
 <div style="color:#848e9c;">Last Price</div>
-<div class="b" style="font-size:32px;">66,450.50</div>
-<div class="g">+2,345.20 +3.54%</div>
-<div class="chart">
-<div class="candle" style="height:60px;left:5%;"></div>
-<div class="candle red" style="height:40px;left:10%;"></div>
-<div class="candle" style="height:80px;left:15%;"></div>
-<div class="candle" style="height:100px;left:20%;"></div>
-<div class="candle red" style="height:70px;left:25%;"></div>
-<div class="candle" style="height:120px;left:30%;"></div>
-</div>
+<div class="b price" style="font-size:32px;" id="btc2">66,450.50</div>
+<div class="g" id="btc2c">+2,345.20 +3.54%</div>
 <a href="#login" class="btn" style="margin-top:20px;">Login to Trade</a>
 </div>
 </div>
@@ -154,7 +135,7 @@ tr:hover{background:#1e2329;cursor:pointer;}
 <tr><td class="red">66455.20</td><td align="right">0.234</td></tr>
 <tr><td class="red">66452.80</td><td align="right">0.892</td></tr>
 <tr><td class="red">66450.50</td><td align="right">1.245</td></tr>
-<tr><td colspan="2" style="text-align:center;color:#f0b90b;padding:8px 0;">66450.50</td></tr>
+<tr><td colspan="2" style="text-align:center;color:#f0b90b;padding:8px 0;" class="price" id="btcmid">66450.50</td></tr>
 <tr><td class="g">66448.10</td><td align="right">0.543</td></tr>
 <tr><td class="g">66445.60</td><td align="right">1.821</td></tr>
 <tr><td class="g" style="border:none;">66442.30</td><td align="right" style="border:none;">0.932</td></tr>
@@ -169,7 +150,7 @@ tr:hover{background:#1e2329;cursor:pointer;}
 <div class="c">
 <div style="font-weight:700;margin-bottom:12px;font-size:18px;">USDT Perpetual - BTCUSDT</div>
 <div style="color:#848e9c;">Mark Price</div>
-<div class="b" style="font-size:32px;">66,442.10</div>
+<div class="b price" style="font-size:32px;" id="btc3">66,442.10</div>
 <div class="g">+3.51% 24h</div>
 <a href="#login" class="btn" style="margin-top:20px;">Login to Trade Futures</a>
 </div>
@@ -181,7 +162,6 @@ tr:hover{background:#1e2329;cursor:pointer;}
 <div style="font-weight:700;margin-bottom:12px;font-size:18px;">My Assets</div>
 <div style="color:#848e9c;margin-bottom:20px;">Please login to view your wallet balance</div>
 <a href="#login" class="btn">Login Now</a>
-<a href="#login" class="btn" style="background:#1e2329;color:#eaecef;margin-top:10px;">Register</a>
 </div>
 </div>
 
@@ -199,5 +179,26 @@ tr:hover{background:#1e2329;cursor:pointer;}
 </div>
 </div>
 
-</body>
-</html>
+<script>
+function drawChart(){
+let c=document.getElementById('chart');c.innerHTML='';
+for(let i=0;i<30;i++){
+let h=Math.random()*180+20;
+let d=document.createElement('div');
+d.className='candle'+(Math.random()>0.6?' red':'');
+d.style.height=h+'px';
+d.style.left=(i*3.3)+'%';
+d.style.animationDelay=(i*0.05)+'s';
+c.appendChild(d);
+}}
+drawChart();
+
+async function updatePrice(){
+try{
+let r=await fetch('https://api.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT');
+let d=await r.json();
+let p=parseFloat(d.lastPrice).toFixed(2);
+let c=parseFloat(d.priceChangePercent).toFixed(2);
+let ch=c>=0;
+document.getElementById('btcprice').textContent=p;
+document.getElementById('
