@@ -1,131 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>BIOTTUS EXCHANGE | Trade Bitcoin & Crypto</title>
-    <style>
-        :root {
-            --binance-bg: #0b0e11;
-            --binance-card: #181a20;
-            --binance-card2: #1e2329;
-            --binance-border: #2b3139;
-            --binance-text: #eaecef;
-            --binance-text2: #848e9c;
-            --binance-yellow: #f0b90b;
-            --binance-green: #0ecb81;
-            --binance-red: #f6465d;
-            --gold1: #FFD700;
-            --gold2: #D4AF37;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { background: var(--binance-bg); color: var(--binance-text); font-family: BinancePlex, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; font-size: 14px; }
-
-        /* TOP BAR - BINANCE STYLE */
-        .top-bar { background: var(--binance-bg); padding: 8px 16px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid var(--binance-border); }
-        .logo-box { display: flex; align-items: center; gap: 8px; }
-        .luxury-logo {
-            width: 32px; height: 32px; position: relative;
-            background: linear-gradient(135deg, var(--gold1) 0%, var(--gold2) 50%, #B8860B 100%);
-            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 0 20px rgba(240,185,11,0.4);
-            animation: glow 3s ease-in-out infinite;
-        }
-        .luxury-logo::after {
-            content: 'B'; font-weight: 900; font-size: 18px; color: #000;
-            text-shadow: 0 1px 0 rgba(255,255,255,0.3);
-        }
-        @keyframes glow { 0%,100% { filter: brightness(1); } 50% { filter: brightness(1.2); } }
-        .brand { font-size: 18px; font-weight: 700; letter-spacing: 0.5px; }
-        .brand span { color: var(--binance-yellow); }
-        .top-icons { display: flex; gap: 16px; font-size: 20px; color: var(--binance-text2); }
-
-        /* TICKER SCROLL */
-        .ticker-wrap { background: var(--binance-card); padding: 8px 0; border-bottom: 1px solid var(--binance-border); overflow: hidden; }
-        .ticker { display: flex; gap: 24px; animation: scroll 30s linear infinite; white-space: nowrap; }
-        .tick-item { display: flex; gap: 6px; font-size: 12px; }
-        .tick-green { color: var(--binance-green); }
-        .tick-red { color: var(--binance-red); }
-        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-
-        /* MAIN CONTENT */
-        .screen { display: none; padding-bottom: 70px; }
-        .screen.active { display: block; }
-        .container { max-width: 430px; margin: 0 auto; }
-
-        /* BALANCE CARD - BINANCE STYLE */
-        .wallet-card { background: var(--binance-card); margin: 12px; padding: 20px; border-radius: 12px; border: 1px solid var(--binance-border); }
-        .wallet-title { font-size: 12px; color: var(--binance-text2); display: flex; justify-content: space-between; align-items: center; }
-        .wallet-amount { font-size: 32px; font-weight: 700; margin: 8px 0; letter-spacing: -0.5px; }
-        .wallet-pnl { display: flex; gap: 12px; font-size: 13px; }
-        .pnl-box { display: flex; align-items: center; gap: 4px; }
-        .btn-row { display: flex; gap: 8px; margin-top: 16px; }
-        .btn-main { flex: 1; background: var(--binance-yellow); color: #000; border: none; padding: 12px; border-radius: 8px; font-weight: 700; font-size: 14px; }
-        .btn-sub { flex: 1; background: var(--binance-card2); color: var(--binance-text); border: 1px solid var(--binance-border); padding: 12px; border-radius: 8px; font-weight: 600; font-size: 14px; }
-
-        /* QUICK ACTIONS */
-        .quick-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; padding: 0 12px 12px; }
-        .quick-item { background: var(--binance-card); border: 1px solid var(--binance-border); border-radius: 12px; padding: 16px 8px; text-align: center; }
-        .quick-icon { font-size: 24px; margin-bottom: 6px; }
-        .quick-text { font-size: 12px; color: var(--binance-text2); font-weight: 500; }
-
-        /* MARKET TABS */
-        .market-tabs { display: flex; background: var(--binance-card); margin: 0 12px; border-radius: 8px 8px 0 0; border: 1px solid var(--binance-border); border-bottom: none; }
-        .m-tab { flex: 1; padding: 12px; text-align: center; font-size: 13px; font-weight: 600; color: var(--binance-text2); border-bottom: 2px solid transparent; }
-        .m-tab.active { color: var(--binance-yellow); border-bottom-color: var(--binance-yellow); }
-
-        /* COIN LIST - BINANCE TABLE */
-        .coin-list { background: var(--binance-card); margin: 0 12px 12px; border: 1px solid var(--binance-border); border-radius: 0 0 8px 8px; }
-        .coin-header { display: grid; grid-template-columns: 2fr 1fr 1fr; padding: 12px 16px; font-size: 12px; color: var(--binance-text2); border-bottom: 1px solid var(--binance-border); }
-        .coin-row { display: grid; grid-template-columns: 2fr 1fr 1fr; padding: 14px 16px; border-bottom: 1px solid rgba(43,49,57,0.3); align-items: center; }
-        .coin-row:active { background: var(--binance-card2); }
-        .coin-left { display: flex; align-items: center; gap: 10px; }
-        .coin-icon { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 11px; }
-        .coin-pair { font-weight: 600; font-size: 14px; }
-        .coin-name { font-size: 11px; color: var(--binance-text2); }
-        .coin-price { text-align: right; font-weight: 600; font-size: 14px; }
-        .coin-change { text-align: right; }
-        .chg-badge { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 700; min-width: 65px; }
-        .chg-up { background: rgba(14,203,129,0.1); color: var(--binance-green); }
-        .chg-down { background: rgba(246,70,93,0.1); color: var(--binance-red); }
-
-        /* BOTTOM NAV - BINANCE STYLE */
-        .bottom-nav { background: var(--binance-bg); border-top: 1px solid var(--binance-border); position: fixed; bottom: 0; left: 0; right: 0; display: flex; max-width: 430px; margin: 0 auto; z-index: 1000; }
-        .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 8px 0 6px; color: var(--binance-text2); font-size: 10px; font-weight: 500; gap: 4px; }
-        .nav-item.active { color: var(--binance-yellow); }
-        .nav-icon { font-size: 22px; }
-
-        /* FUTURES PAGE */
-        .pair-header { background: var(--binance-card); padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--binance-border); }
-        .pair-name { font-size: 16px; font-weight: 700; }
-        .pair-price { text-align: right; }
-        .price-big { font-size: 18px; font-weight: 700; color: var(--binance-green); }
-        .price-change { font-size: 12px; color: var(--binance-green); }
-        .chart-box { height: 250px; background: var(--binance-card); margin: 12px; border-radius: 8px; border: 1px solid var(--binance-border); display: flex; align-items: center; justify-content: center; color: var(--binance-text2); }
-        .trade-box { background: var(--binance-card); margin: 12px; padding: 16px; border-radius: 8px; border: 1px solid var(--binance-border); }
-        .trade-tabs { display: flex; gap: 8px; margin-bottom: 16px; }
-        .trade-tab { flex: 1; padding: 10px; text-align: center; background: var(--binance-card2); border-radius: 6px; font-weight: 600; font-size: 13px; }
-        .trade-tab.active-buy { background: var(--binance-green); color: #000; }
-        .input-field { background: var(--binance-bg); border: 1px solid var(--binance-border); border-radius: 6px; padding: 12px; margin-bottom: 12px; display: flex; justify-content: space-between; }
-        .input-field input { background: none; border: none; color: var(--binance-text); font-size: 14px; font-weight: 600; outline: none; width: 70%; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BIOTTUS EXCHANGE</title>
+<style>
+body{margin:0;background:#0b0e11;color:#eaecef;font-family:Arial,sans-serif;}
+.header{background:#12161c;padding:12px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #2b3139;position:sticky;top:0;}
+.logo{width:32px;height:32px;background:linear-gradient(135deg,#FFD700,#D4AF37);clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);display:flex;align-items:center;justify-content:center;color:#000;font-weight:900;font-size:18px;}
+.title{font-size:18px;font-weight:700;}
+.title span{color:#f0b90b;}
+.container{max-width:430px;margin:0 auto;padding:12px 12px 80px;}
+.card{background:#181a20;border:1px solid #2b3139;border-radius:12px;padding:16px;margin-bottom:12px;}
+.balance{font-size:28px;font-weight:700;margin:8px 0;}
+.pnl{color:#0ecb81;font-size:13px;font-weight:600;}
+.btn{width:100%;background:#f0b90b;color:#000;border:none;padding:12px;border-radius:8px;font-weight:700;margin-top:12px;}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;text-align:center;font-size:12px;}
+.grid div{background:#1e2329;padding:14px 8px;border-radius:10px;border:1px solid #2b3139;}
+.list-item{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid #2b3139;}
+.list-item:last-child{border:none;}
+.coin{display:flex;align-items:center;gap:10px;}
+.icon{width:28px;height:28px;border-radius:50%;background:#2b3139;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;}
+.price{font-weight:600;}
+.chg{font-size:12px;padding:4px 8px;border-radius:4px;font-weight:700;}
+.up{background:rgba(14,203,129,0.1);color:#0ecb81;}
+.down{background:rgba(246,70,93,0.1);color:#f6465d;}
+.nav{position:fixed;bottom:0;left:0;right:0;background:#12161c;border-top:1px solid #2b3139;display:flex;max-width:430px;margin:0 auto;}
+.nav-btn{flex:1;text-align:center;padding:8px 0;font-size:10px;color:#848e9c;}
+.nav-btn.active{color:#f0b90b;}
+.nav-btn div{font-size:22px;margin-bottom:2px;}
+.page{display:none;}
+.page.active{display:block;}
+</style>
 </head>
 <body>
-    <!-- TOP BAR -->
-    <div class="top-bar">
-        <div class="logo-box">
-            <div class="luxury-logo"></div>
-            <div class="brand">BIOTTUS <span>EXCHANGE</span></div>
+<div class="header">
+    <div class="logo">B</div>
+    <div class="title">BIOTTUS <span>EXCHANGE</span></div>
+</div>
+
+<div class="container">
+    <div id="home" class="page active">
+        <div class="card">
+            <div style="font-size:12px;color:#848e9c;">Total Balance</div>
+            <div class="balance">$24,592.84</div>
+            <div class="pnl">+ $847.21 (+3.56%) Today</div>
+            <button class="btn">Deposit</button>
         </div>
-        <div class="top-icons">
-            <span>🔍</span>
-            <span>🔔</span>
-            <span>👤</span>
+        
+        <div class="card">
+            <div class="grid">
+                <div onclick="showPage('swap')">🔄<br>Swap</div>
+                <div onclick="showPage('trade')">📈<br>Trade</div>
+                <div onclick="showPage('markets')">📊<br>Markets</div>
+                <div onclick="showPage('wallet')">👛<br>Wallet</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div style="font-weight:700;margin-bottom:12px;">Markets</div>
+            <div id="coinList"></div>
         </div>
     </div>
 
-    <!-- TICKER -->
-    <div class="ticker-wrap">
-        <div class="ticker" id="ticker">
-            <div class="tick-item">BTC/USDT <span class="tick-green">
+    <div id="markets" class="page">
+        <div class="card">
+            <div style="font-weight:700;margin-bottom:12px;">All Markets</div>
+            <div id="marketList"></div>
+        </div>
+    </div>
+
+    <div id="trade" class="page">
+        <div class="card">
+            <div style="font-weight:700;">BTC/USDT</div>
+            <div class="price" style="font-size:24px;color:#0ecb81;margin:8px 0;" id="livePrice">66,450.50</div>
+            <button class="btn" style="background:#0ecb81;">Buy BTC</button>
+        </div>
+    </div>
+
+    <div id="swap" class="page">
+        <div class="card">
+            <div style="font-weight:700;margin-bottom:12px;">Convert</div>
+            <button class="btn">Convert Now</button>
+        </div>
+    </div>
+
+    <div id="wallet" class="page">
+        <div class="card">
+            <div style="font-weight:700;margin-bottom:12px;">My Assets</div>
+            <div class="list-item">
+                <div class="coin"><div class="icon" style="background:#F7931A;color:#000;">₿</div>Bitcoin</div>
