@@ -3,196 +3,255 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Crypto Exchange Dashboard</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Biottus Exchange | Premium Crypto Platform</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background-color: #0b0e11; color: #eaecef; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        .binance-dark { background-color: #181a20; }
+        .border-luxury { border-color: #2b2f36; }
+        .text-gold { color: #f0b90b; }
+        .bg-gold { background-color: #f0b90b; }
+    </style>
 </head>
-<body class="bg-gray-950 text-gray-100 font-sans min-h-screen">
+<body>
 
-    <!-- Navbar -->
-    <nav class="border-b border-gray-800 bg-gray-900/50 backdrop-blur-md sticky top-0 z-50 px-6 py-4 flex justify-between items-center">
+    <nav class="binance-dark border-b border-luxury sticky top-0 z-50 px-6 py-4 flex justify-between items-center">
         <div class="flex items-center space-x-3">
-            <div class="bg-gradient-to-r from-amber-500 to-orange-600 p-2.5 rounded-xl shadow-lg shadow-orange-500/20">
-                <i class="fa-solid fa-cubes text-xl text-white"></i>
+            <div class="bg-gold p-2.5 rounded-xl shadow-lg shadow-yellow-500/10 flex items-center justify-center">
+                <i class="fa-solid fa-cubes text-black text-xl"></i>
             </div>
-            <span class="text-xl font-bold tracking-wider bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">Biottus<span class="text-amber-500"></span></span>
+            <span class="text-xl font-bold tracking-wider text-white">BIOTTUS <span class="text-gold">EXCHANGE</span></span>
         </div>
-        <div class="flex items-center space-x-6 text-sm font-medium text-gray-400">
-            <a href="#" class="text-amber-500 hover:text-amber-400 transition">Market</a>
-            <a href="#" class="hover:text-white transition">Exchange</a>
-            <a href="#" class="hover:text-white transition">Wallet</a>
-            <button class="bg-gradient-to-r from-amber-500 to-orange-600 text-slate-950 font-bold px-5 py-2 rounded-xl hover:opacity-90 transition shadow-md shadow-orange-500/10">Connect Wallet</button>
+        <div class="hidden md:flex space-x-8 text-sm font-medium">
+            <a href="#" class="text-gold transition">Markets</a>
+            <a href="#" class="hover:text-gold transition">Trade</a>
+            <a href="#" class="hover:text-gold transition">Futures</a>
+            <a href="#" class="hover:text-gold transition">Wallet</a>
+        </div>
+        <div>
+            <button class="bg-gold text-black font-semibold px-5 py-2 rounded-lg text-sm hover:opacity-90 transition shadow-md shadow-yellow-500/5">Connect Wallet</button>
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div class="max-w-7xl mx-auto p-4 lg:p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
         
-        <!-- Left & Center: Market & Charts -->
-        <div class="lg:col-span-2 space-y-8">
-            <!-- Stats Grid -->
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4" id="stats-container">
-                <!-- Live Loading Cards -->
-                <div class="bg-gray-900 border border-gray-800 p-6 rounded-2xl animate-pulse h-32"></div>
-                <div class="bg-gray-900 border border-gray-800 p-6 rounded-2xl animate-pulse h-32"></div>
-                <div class="bg-gray-900 border border-gray-800 p-6 rounded-2xl animate-pulse h-32"></div>
+        <div class="lg:col-span-2 space-y-6">
+            
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 binance-dark p-4 rounded-xl border border-luxury">
+                <div>
+                    <p class="text-xs text-gray-400">Selected Pair</p>
+                    <p class="text-base font-bold text-white flex items-center" id="active-pair-display">BTC/USDT</p>
+                </div>
+                <div>
+                    <p class="text-xs text-gray-400">Live Price</p>
+                    <p class="text-base font-bold text-gold" id="ticker-price">Loading...</p>
+                </div>
+                <div>
+                    <p class="text-xs text-gray-400">24h Change</p>
+                    <p class="text-base font-bold" id="ticker-change">0.00%</p>
+                </div>
+                <div>
+                    <p class="text-xs text-gray-400">24h High</p>
+                    <p class="text-base font-semibold text-gray-200" id="ticker-high">-</p>
+                </div>
             </div>
 
-            <!-- Chart Section -->
-            <div class="bg-gray-900 border border-gray-800 p-6 rounded-2xl shadow-xl">
-                <div class="flex justify-between items-center mb-6">
+            <div class="binance-dark p-4 rounded-xl border border-luxury shadow-xl">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-md font-bold text-white"><i class="fa-solid fa-chart-line text-gold mr-2"></i>Live Market Chart</h3>
+                    <span class="text-xs bg-luxury px-2 py-1 rounded text-gray-400 border border-luxury">Interval: 1m</span>
+                </div>
+                <div id="chart" class="w-full h-[400px]"></div>
+            </div>
+        </div>
+
+        <div class="space-y-6">
+            
+            <div class="binance-dark p-4 rounded-xl border border-luxury shadow-xl">
+                <h3 class="text-md font-bold text-white mb-4"><i class="fa-solid fa-list text-gold mr-2"></i>Core Crypto Markets</h3>
+                <div class="space-y-2" id="crypto-market-list">
+                    </div>
+            </div>
+
+            <div class="binance-dark p-5 rounded-xl border border-luxury shadow-xl">
+                <h3 class="text-md font-bold text-white mb-4"><i class="fa-solid fa-bolt text-gold mr-2"></i>Quick Swap</h3>
+                <div class="space-y-4">
                     <div>
-                        <h2 class="text-lg font-bold text-gray-200">Market Overview</h2>
-                        <p class="text-xs text-gray-500">Live 7-day price trend simulation</p>
+                        <label class="text-xs text-gray-400 block mb-1">You Pay</label>
+                        <div class="flex bg-[#0b0e11] rounded-lg border border-luxury p-2.5 justify-between items-center">
+                            <input type="number" value="1" class="bg-transparent text-white font-bold text-lg focus:outline-none w-2/3">
+                            <span class="text-sm font-bold text-white bg-luxury px-2 py-1 rounded">USDT</span>
+                        </div>
                     </div>
-                    <span class="text-xs bg-gray-800 text-gray-400 px-3 py-1.5 rounded-lg border border-gray-700">Live Updates</span>
-                </div>
-                <div class="h-72">
-                    <canvas id="marketChart"></canvas>
-                </div>
-            </div>
-        </div>
-
-        <!-- Right: Live Exchange Terminal -->
-        <div class="bg-gray-900 border border-gray-800 p-6 rounded-2xl shadow-xl flex flex-col justify-between h-fit sticky top-28">
-            <div>
-                <h2 class="text-lg font-bold mb-6 flex items-center gap-2">
-                    <i class="fa-solid fa-right-left text-amber-500"></i> Quick Swap (Testnet)
-                </h2>
-                
-                <!-- From Crypto -->
-                <div class="bg-gray-950 border border-gray-800 p-4 rounded-xl mb-4">
-                    <label class="text-xs text-gray-500 block mb-1">You Pay</label>
-                    <div class="flex justify-between items-center">
-                        <input type="number" id="swap-input" value="1" class="bg-transparent text-xl font-bold focus:outline-none text-white w-full" oninput="calculateSwap()">
-                        <select class="bg-gray-900 border border-gray-700 rounded-lg px-3 py-1.5 text-sm font-semibold focus:outline-none" id="from-coin" onchange="calculateSwap()">
-                            <option value="bitcoin">BTC</option>
-                            <option value="ethereum">ETH</option>
-                        </select>
+                    <div class="flex justify-center">
+                        <i class="fa-solid fa-arrow-down-long text-gold text-lg my-1"></i>
                     </div>
-                </div>
-
-                <!-- Swap Icon -->
-                <div class="flex justify-center my-2">
-                    <div class="bg-gray-800 p-2 rounded-full border border-gray-700 cursor-pointer hover:bg-gray-700 transition">
-                        <i class="fa-solid fa-arrow-down-up-across-line text-amber-500 text-xs"></i>
+                    <div>
+                        <label class="text-xs text-gray-400 block mb-1">You Receive (Estimated)</label>
+                        <div class="flex bg-[#0b0e11] rounded-lg border border-luxury p-2.5 justify-between items-center">
+                            <input type="text" value="Calculated..." readonly class="bg-transparent text-gold font-bold text-lg focus:outline-none w-2/3">
+                            <span class="text-sm font-bold text-white bg-luxury px-2 py-1 rounded" id="swap-receive-symbol">BTC</span>
+                        </div>
                     </div>
-                </div>
-
-                <!-- To Fiat/Crypto -->
-                <div class="bg-gray-950 border border-gray-800 p-4 rounded-xl mb-6">
-                    <label class="text-xs text-gray-500 block mb-1">You Receive</label>
-                    <div class="flex justify-between items-center">
-                        <span id="swap-output" class="text-xl font-bold text-gray-400">Loading...</span>
-                        <select class="bg-gray-900 border border-gray-700 rounded-lg px-3 py-1.5 text-sm font-semibold focus:outline-none">
-                            <option value="usd">USD ($)</option>
-                        </select>
-                    </div>
+                    <button class="w-full bg-gold text-black font-bold py-3 rounded-lg hover:opacity-90 transition shadow-lg shadow-yellow-500/5">Execute Order</button>
                 </div>
             </div>
 
-            <button class="w-full bg-gradient-to-r from-amber-500 to-orange-600 text-slate-950 font-bold py-4 rounded-xl transition shadow-lg shadow-orange-500/10 hover:opacity-95" onclick="alert('Success! This is a demo swap transaction on testing environment.')">
-                Execute Swap
-            </button>
         </div>
-    </main>
+    </div>
 
     <script>
-        let currentPrices = {};
+        const coins = [
+            { symbol: 'btcusdt', name: 'Bitcoin', short: 'BTC', icon: 'fa-bitcoin' },
+            { symbol: 'ethusdt', name: 'Ethereum', short: 'ETH', icon: 'fa-ethereum' },
+            { symbol: 'bnbusdt', name: 'BNB', short: 'BNB', icon: 'fa-cube' },
+            { symbol: 'solusdt', name: 'Solana', short: 'SOL', icon: 'fa-bolt' },
+            { symbol: 'xrpusdt', name: 'Ripple', short: 'XRP', icon: 'fa-circle-nodes' }
+        ];
 
-        async function fetchMarketData() {
-            try {
-                const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,binancecoin&vs_currencies=usd&include_24hr_change=true');
-                const data = await response.json();
-                currentPrices = data;
-                
-                renderStats(data);
-                calculateSwap();
-            } catch (error) {
-                console.error("Error fetching crypto data:", error);
-            }
+        let currentPair = 'btcusdt';
+        let currentStream = null;
+        let chartSeries = null;
+        let chart = null;
+
+        // Initialize TradingView Chart
+        function initChart() {
+            const container = document.getElementById('chart');
+            chart = LightweightCharts.createChart(container, {
+                layout: { backgroundColor: '#181a20', textColor: '#848e9c' },
+                grid: { vertLines: { color: '#2b2f36' }, horzLines: { color: '#2b2f36' } },
+                crosshair: { mode: LightweightCharts.CrosshairMode.Normal },
+                rightPriceScale: { borderColor: '#2b2f36' },
+                timeScale: { borderColor: '#2b2f36' },
+            });
+            chartSeries = chart.addCandlestickSeries({
+                upColor: '#0ecb81', downColor: '#f6465d', borderUpColor: '#0ecb81',
+                borderDownColor: '#f6465d', wickUpColor: '#0ecb81', wickDownColor: '#f6465d'
+            });
+
+            // Handle Resize
+            new ResizeObserver(() => {
+                chart.resize(container.clientWidth, container.clientHeight);
+            }).observe(container);
         }
 
-        function renderStats(data) {
-            const container = document.getElementById('stats-container');
-            container.innerHTML = '';
-
-            const coins = [
-                { id: 'bitcoin', name: 'Bitcoin', symbol: 'BTC', icon: 'fa-bitcoin text-orange-500' },
-                { id: 'ethereum', name: 'Ethereum', symbol: 'ETH', icon: 'fa-ethereum text-indigo-400' },
-                { id: 'binancecoin', name: 'BNB', symbol: 'BNB', icon: 'fa-coins text-yellow-500' }
-            ];
-
+        // Render Sidebar Crypto List
+        function renderMarketList() {
+            const listContainer = document.getElementById('crypto-market-list');
+            listContainer.innerHTML = '';
             coins.forEach(coin => {
-                const price = data[coin.id].usd;
-                const change = data[coin.id].usd_24h_change;
-                const isPositive = change >= 0;
-
-                container.innerHTML += `
-                    <div class="bg-gray-900 border border-gray-800 p-6 rounded-2xl hover:border-gray-700 transition">
-                        <div class="flex justify-between items-start mb-3">
-                            <div class="flex items-center space-x-3">
-                                <div class="bg-gray-950 p-2.5 rounded-xl border border-gray-800">
-                                    <i class="fa-brands ${coin.icon} text-lg"></i>
-                                </div>
-                                <div>
-                                    <h3 class="font-bold text-sm text-gray-200">${coin.name}</h3>
-                                    <span class="text-xs text-gray-500 font-mono">${coin.symbol}/USD</span>
-                                </div>
+                listContainer.innerHTML += `
+                    <div onclick="switchPair('${coin.symbol}')" class="flex justify-between items-center p-3 rounded-lg hover:bg-[#2b2f36] cursor-pointer transition border border-transparent hover:border-luxury">
+                        <div class="flex items-center space-x-3">
+                            <div class="text-gold text-lg"><i class="fa-brands ${coin.icon} || fa-solid fa-circle-nodes"></i></div>
+                            <div>
+                                <p class="text-sm font-bold text-white">${coin.short}/USDT</p>
+                                <p class="text-xs text-gray-400">${coin.name}</p>
                             </div>
-                            <span class="text-xs font-semibold px-2 py-1 rounded-lg ${isPositive ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'}">
-                                ${isPositive ? '+' : ''}${change.toFixed(2)}%
-                            </span>
                         </div>
-                        <p class="text-2xl font-black font-mono tracking-tight text-white">$${price.toLocaleString()}</p>
+                        <div class="text-right">
+                            <p class="text-sm font-bold text-white" id="price-${coin.symbol}">Loading...</p>
+                            <p class="text-xs" id="change-${coin.symbol}">0.00%</p>
+                        </div>
                     </div>
                 `;
             });
         }
 
-        function calculateSwap() {
-            const amount = document.getElementById('swap-input').value;
-            const selectedCoin = document.getElementById('from-coin').value;
-            const outputSpan = document.getElementById('swap-output');
-
-            if (currentPrices[selectedCoin]) {
-                const rate = currentPrices[selectedCoin].usd;
-                const total = amount * rate;
-                outputSpan.innerText = `$${total.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+        // Fetch Historic Data for Chart via REST API
+        async function loadChartHistory(symbol) {
+            try {
+                const response = await fetch(`https://api.binance.com/api/v3/klines?symbol=${symbol.toUpperCase()}&interval=1m&limit=100`);
+                const data = await response.json();
+                const cdata = data.map(d => ({
+                    time: d[0] / 1000,
+                    open: parseFloat(d[1]),
+                    high: parseFloat(d[2]),
+                    low: parseFloat(d[3]),
+                    close: parseFloat(d[4])
+                }));
+                chartSeries.setData(cdata);
+            } catch (error) {
+                console.error("Error loading history:", error);
             }
         }
 
-        // Initialize Chart.js
-        const ctx = document.getElementById('marketChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                datasets: [{
-                    label: 'Market Index',
-                    data: [62000, 61500, 63000, 62800, 64200, 63900, 65000],
-                    borderColor: '#f59e0b',
-                    borderWidth: 2,
-                    backgroundColor: 'rgba(245, 158, 11, 0.04)',
-                    fill: true,
-                    tension: 0.4,
-                    pointRadius: 0
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
-                scales: {
-                    x: { grid: { display: false }, ticks: { color: '#6b7280' } },
-                    y: { grid: { color: '#1f2937' }, ticks: { color: '#6b7280' } }
-                }
+        // Handle Binance WebSocket Connection
+        function connectWebSocket() {
+            if (currentStream) {
+                currentStream.close();
             }
-        });
 
-        fetchMarketData();
-        setInterval(fetchMarketData, 30000); // Auto refresh every 30s
+            // Combine individual ticker streams and the candlestick stream for the active pair
+            const streams = coins.map(c => `${c.symbol}@ticker`).join('/');
+            const activeKlineStream = `${currentPair}@kline_1m`;
+            
+            currentStream = new WebSocket(`wss://stream.binance.com:9443/ws/${activeKlineStream}/${streams}`);
+
+            currentStream.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+
+                // Update Market List Sidebar
+                if (data.e === '24hrTicker') {
+                    const symbol = data.s.toLowerCase();
+                    const priceEl = document.getElementById(`price-${symbol}`);
+                    const changeEl = document.getElementById(`change-${symbol}`);
+                    
+                    if (priceEl && changeEl) {
+                        const price = parseFloat(data.c).toFixed(2);
+                        const change = parseFloat(data.P).toFixed(2);
+                        
+                        priceEl.innerText = `$${price}`;
+                        changeEl.innerText = `${change > 0 ? '+' : ''}${change}%`;
+                        changeEl.className = `text-xs font-semibold ${change >= 0 ? 'text-green-500' : 'text-red-500'}`;
+                    }
+
+                    // Main Ticker Info Update
+                    if (symbol === currentPair) {
+                        document.getElementById('ticker-price').innerText = `$${parseFloat(data.c).toFixed(2)}`;
+                        const mainChange = parseFloat(data.P).toFixed(2);
+                        const changeBox = document.getElementById('ticker-change');
+                        changeBox.innerText = `${mainChange > 0 ? '+' : ''}${mainChange}%`;
+                        changeBox.className = `text-base font-bold ${mainChange >= 0 ? 'text-green-500' : 'text-red-500'}`;
+                        document.getElementById('ticker-high').innerText = `$${parseFloat(data.h).toFixed(2)}`;
+                    }
+                }
+
+                // Live Update the Active Chart Line
+                if (data.e === 'kline' && data.s.toLowerCase() === currentPair) {
+                    const k = data.k;
+                    chartSeries.update({
+                        time: k.t / 1000,
+                        open: parseFloat(k.o),
+                        high: parseFloat(k.h),
+                        low: parseFloat(k.l),
+                        close: parseFloat(k.c)
+                    });
+                }
+            };
+        }
+
+        // Switch Live Chart View
+        function switchPair(symbol) {
+            currentPair = symbol;
+            const targetCoin = coins.find(c => c.symbol === symbol);
+            document.getElementById('active-pair-display').innerText = `${targetCoin.short}/USDT`;
+            document.getElementById('swap-receive-symbol').innerText = targetCoin.short;
+            document.getElementById('ticker-price').innerText = 'Syncing...';
+            
+            loadChartHistory(symbol);
+            connectWebSocket();
+        }
+
+        // Master Launch
+        window.onload = () => {
+            initChart();
+            renderMarketList();
+            loadChartHistory(currentPair);
+            connectWebSocket();
+        };
     </script>
 </body>
 </html>
