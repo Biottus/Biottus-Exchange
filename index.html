@@ -32,16 +32,16 @@ body{background:#0b0e11;color:#eaecef;font-family:Arial;}
 body:has(#trade:target) #home,body:has(#wallet:target) #home,body:has(#markets:target) #home{display:none;}
 .clear{clear:both;}
 table{width:100%;border-collapse:collapse;font-size:13px;}
-td{padding:8px 0;border-bottom:1px solid #2b3139;}
+td{padding:10px 0;border-bottom:1px solid #2b3139;}
 tr:last-child td{border:none;}
 tr:hover{background:#1e2329;cursor:pointer;}
 .chart{width:100%;height:300px;background:#0b0e11;border-radius:8px;margin-top:12px;position:relative;overflow:hidden;}
 .candle{position:absolute;bottom:20px;width:4px;background:#0ecb81;margin-left:1px;}
 .candle.red{background:#f6465d;}
-.popup{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:999;}
-.popup:target{display:flex;align-items:center;justify-content:center;}
+.popup{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:9999;}
+.popup.show{display:flex;align-items:center;justify-content:center;}
 .popc{background:#181a20;border:1px solid #2b3139;border-radius:12px;padding:24px;width:90%;max-width:400px;position:relative;}
-.close{position:absolute;top:12px;right:16px;color:#848e9c;text-decoration:none;font-size:24px;}
+.close{position:absolute;top:12px;right:16px;color:#848e9c;text-decoration:none;font-size:24px;cursor:pointer;}
 .input,.select{width:100%;padding:12px;background:#0b0e11;border:1px solid #2b3139;border-radius:8px;color:#eaecef;margin:8px 0;}
 .select{cursor:pointer;}
 .tabs{display:flex;border-bottom:1px solid #2b3139;margin-bottom:16px;}
@@ -68,7 +68,7 @@ tr:hover{background:#1e2329;cursor:pointer;}
 <a href="#trade" id="navTrade">Trade</a>
 <a href="#wallet" id="navWallet">Wallet</a>
 </div>
-<div class="user" id="userBtn" onclick="toggleUser()">Login</div>
+<div class="user" id="userBtn" onclick="showLogin()">Login</div>
 </div>
 
 <div class="wrap">
@@ -78,17 +78,25 @@ tr:hover{background:#1e2329;cursor:pointer;}
 <div style="font-size:12px;color:#848e9c;">Total Balance</div>
 <div class="b" id="totalBal">$0.00</div>
 <div id="pnl" style="font-weight:600;">+ $0.00 (0.00%)</div>
-<a href="#login" class="btn" id="depBtn">Login to Trade</a>
+<button class="btn" id="depBtn" onclick="handleDepBtn()">Login to Trade</button>
 </div>
 <div class="c">
 <div style="font-weight:700;margin-bottom:12px;">BTC/USDT Chart - <span class="price g" id="btcprice">66,450.50</span></div>
 <div class="chart" id="chart"></div>
+</div>
+<div class="c">
+<div style="font-weight:700;margin-bottom:12px;font-size:18px;">Top Markets</div>
+<div class="scroll"><table id="homeMarkets"></table></div>
 </div>
 </div>
 <div class="r">
 <div class="c">
 <div style="font-weight:700;margin-bottom:12px;">Top Gainers</div>
 <table id="gainers"></table>
+</div>
+<div class="c">
+<div style="font-weight:700;margin-bottom:12px;">24h Volume</div>
+<div class="b" style="font-size:28px;" id="vol">$1.24B</div>
 </div>
 </div>
 <div class="clear"></div>
@@ -149,8 +157,8 @@ tr:hover{background:#1e2329;cursor:pointer;}
 
 <div id="login" class="popup">
 <div class="popc">
-<a href="#" class="close">×</a>
-<div style="font-size:20px;font-weight:700;margin-bottom:16px;text-align:center;">Login</div>
+<div class="close" onclick="hideLogin()">×</div>
+<div style="font-size:20px;font-weight:700;margin-bottom:16px;text-align:center;">Login to BIOTTUS</div>
 <input class="input" id="email" placeholder="demo@biottus.com" value="demo@biottus.com">
 <input class="input" id="pass" type="password" placeholder="123456" value="123456">
 <button class="btn" onclick="doLogin()">Log In</button>
@@ -164,7 +172,7 @@ const coinList=['BTC','ETH','BNB','SOL','XRP','DOGE','ADA','AVAX','SHIB','DOT','
 
 function init(){
 coinList.forEach(c=>{coins[c]={p:0,c:0};wallet[c]=0;});
-let d=localStorage.getItem('bio3');
+let d=localStorage.getItem('bio4');
 if(d){let j=JSON.parse(d);usdt=j.u;logged=j.l;hist=j.h||[];Object.assign(wallet,j.w||{});}
 updateUI();updateHist();drawChart();loadPrices();
 document.getElementById('buyAmt').oninput=calcBuy;
@@ -177,7 +185,10 @@ setActiveMenu();
 window.onhashchange=setActiveMenu;
 }
 
-function save(){localStorage.setItem('bio3',JSON.stringify({u:usdt,l:logged,h:hist,w:wallet}));}
+function save(){localStorage.setItem('bio4',JSON.stringify({u:usdt,l:logged,h:hist,w:wallet}));}
+
+function showLogin(){document.getElementById('login').classList.add('show');}
+function hideLogin(){document.getElementById('login').classList.remove('show');}
 
 function setActiveMenu(){
 let h=location.hash||'#home';
@@ -186,11 +197,15 @@ let m={'#home':'navHome','#markets':'navMarkets','#trade':'navTrade','#wallet':'
 if(m)document.getElementById(m).classList.add('active');
 }
 
+function handleDepBtn(){
+if(logged){location='#trade';}else{showLogin();}
+}
+
 function updateUI(){
 if(logged){
 document.getElementById('userBtn').textContent='Demo User | Logout';
 document.getElementById('depBtn').textContent='Go to Trade';
-document.getElementById('depBtn').href='#trade';
+document.getElementById('depBtn').onclick=()=>location='#trade';
 let total=usdt;
 coinList.forEach(c=>{total+=wallet[c]*coins[c].p;});
 let pnl=total-1000000000,pnlp=(pnl/1000000000*100).toFixed(4);
@@ -204,21 +219,26 @@ whtml+='<tr><td><b>USDT</b></td><td align="right">'+usdt.toLocaleString('en-US',
 coinList.forEach(c=>{if(wallet[c]>0)whtml+='<tr><td><b>'+c+'</b></td><td align="right">'+wallet[c].toFixed(6)+'</td><td align="right" style="color:#848e9c;">$'+(wallet[c]*coins[c].p).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})+'</td></tr>';});
 whtml+='<tr><td><b>Total</b></td><td colspan="2" align="right" class="g">$'+total.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})+'</td></tr></table>';
 document.getElementById('walletContent').innerHTML=whtml;
+document.querySelectorAll('.btn-s,.btn-b').forEach(b=>b.disabled=false);
 }else{
 document.getElementById('userBtn').textContent='Login';
 document.getElementById('totalBal').textContent='$0.00';
 document.getElementById('pnl').textContent='+ $0.00 (0.00%)';
+document.getElementById('depBtn').textContent='Login to Trade';
+document.getElementById('depBtn').onclick=showLogin;
+document.querySelectorAll('.btn-s,.btn-b').forEach(b=>b.disabled=true);
 }}
 
 function doLogin(){
-if(document.getElementById('email').value=='demo@biottus.com'){
-logged=true;save();updateUI();location='#home';
-}else{alert('Use demo@biottus.com / 123456');}
+if(document.getElementById('email').value=='demo@biottus.com'&&document.getElementById('pass').value=='123456'){
+logged=true;save();updateUI();hideLogin();location='#home';
+showMsg('Login Successful!',0);
+}else{alert('Wrong credentials! Use demo@biottus.com / 123456');}
 }
 
 function toggleUser(){
 if(logged){if(confirm('Logout? Balance will reset.')){logged=false;usdt=1000000000;hist=[];coinList.forEach(c=>wallet[c]=0);save();updateUI();location='#home';}}
-else{location='#login';}
+else{showLogin();}
 }
 
 function switchTab(t){
@@ -234,7 +254,7 @@ updateCoinDisplay();
 }
 
 function updateCoinDisplay(){
-let p=coins[curCoin].p,c=coins[curCoin].c;
+let p=coins[curCoin].p||0,c=coins[curCoin].c||0;
 document.getElementById('curPrice').textContent=p.toFixed(p>100?2:p>1?4:6);
 document.getElementById('curChange').textContent=(c>=0?'+':'')+c.toFixed(2)+'%';
 document.getElementById('curChange').className=c>=0?'g':'red';
@@ -248,12 +268,12 @@ calcBuy();calcSell();
 
 function calcBuy(){
 let a=parseFloat(document.getElementById('buyAmt').value)||0;
-document.getElementById('buyCoin').textContent=(a/coins[curCoin].p).toFixed(6);
+document.getElementById('buyCoin').textContent=(a/(coins[curCoin].p||1)).toFixed(6);
 }
 
 function calcSell(){
 let a=parseFloat(document.getElementById('sellAmt').value)||0;
-document.getElementById('sellUsdt').textContent=(a*coins[curCoin].p).toFixed(2);
+document.getElementById('sellUsdt').textContent=(a*(coins[curCoin].p||0)).toFixed(2);
 }
 
 function showMsg(t,e){
@@ -275,6 +295,71 @@ h.innerHTML=hist.map(x=>'<tr><td class="'+(x.t=='Buy'?'g':'red')+'">'+x.t+'</td>
 }
 
 function doBuy(){
-if(!logged){location='#login';return;}
+if(!logged){showLogin();return;}
 let a=parseFloat(document.getElementById('buyAmt').value)||0;
-if(a<=0||a>usdt){showMsg('Insufficient
+if(a<=0){showMsg('Enter amount',1);return;}
+if(a>usdt){showMsg('Insufficient USDT',1);return;}
+let b=a/(coins[curCoin].p||1);usdt-=a;wallet[curCoin]+=b;addHist('Buy',curCoin,b,a);save();updateUI();
+document.getElementById('buyAmt').value='';calcBuy();
+showMsg('Bought '+b.toFixed(6)+' '+curCoin+'!',0);
+}
+
+function doSell(){
+if(!logged){showLogin();return;}
+let a=parseFloat(document.getElementById('sellAmt').value)||0;
+if(a<=0){showMsg('Enter amount',1);return;}
+if(a>wallet[curCoin]){showMsg('Insufficient '+curCoin,1);return;}
+let u=a*(coins[curCoin].p||0);wallet[curCoin]-=a;usdt+=u;addHist('Sell',curCoin,a,u);save();updateUI();
+document.getElementById('sellAmt').value='';calcSell();
+showMsg('Sold '+a.toFixed(6)+' '+curCoin+'!',0);
+}
+
+function drawChart(){
+['chart','chart2'].forEach(id=>{
+let c=document.getElementById(id);if(!c)return;c.innerHTML='';
+for(let i=0;i<50;i++){
+let h=Math.random()*200+20,up=Math.random()>0.4;
+let d=document.createElement('div');
+d.className='candle'+(up?'':' red');
+d.style.height=h+'px';d.style.left=(i*2)+'%';
+c.appendChild(d);
+}});
+}
+
+async function loadPrices(){
+try{
+let syms=coinList.map(c=>c+'USDT').join('","');
+let r=await fetch('https://api.binance.com/api/v3/ticker/24hr?symbols=["'+syms+'"]');
+let d=await r.json();
+d.forEach(x=>{
+let c=x.symbol.replace('USDT','');
+if(coins[c]){coins[c].p=parseFloat(x.lastPrice);coins[c].c=parseFloat(x.priceChangePercent);}
+});
+document.getElementById('btcprice').textContent=coins.BTC.p.toFixed(2);
+document.getElementById('vol').textContent='$'+(coins.BTC.p*50000/1e9).toFixed(2)+'B';
+updateCoinDisplay();updateMarkets();
+}catch(e){
+coins.BTC={p:66450,c:3.54};coins.ETH={p:1812,c:2.81};coins.BNB={p:624,c:1.45};
+updateCoinDisplay();updateMarkets();
+}}
+}
+
+function updateMarkets(){
+let t=document.getElementById('marketsTable');
+let g=document.getElementById('gainers');
+let h=document.getElementById('homeMarkets');
+let arr=coinList.map(c=>({n:c,p:coins[c].p,c:coins[c].c}));
+let rows=arr.map(x=>'<tr class="coinrow" onclick="selectCoin(\''+x.n+'\')"><td><b>'+x.n+'/USDT</b></td><td align="right">'+x.p.toFixed(x.p>100?2:x.p>1?4:6)+'</td><td align="right" class="'+(x.c>=0?'g':'red')+'">'+(x.c>=0?'+':'')+x.c.toFixed(2)+'%</td></tr>').join('');
+if(t)t.innerHTML=rows;
+if(h)h.innerHTML=rows;
+if(g)g.innerHTML=arr.sort((a,b)=>b.c-a.c).slice(0,5).map(x=>'<tr><td>'+x.n+'/USDT</td><td align="right" class="g">+'+x.c.toFixed(2)+'%</td></tr>').join('');
+}
+
+function selectCoin(c){
+curCoin=c;document.getElementById('coinSelect').value=c;updateCoinDisplay();location='#trade';
+}
+
+init();
+</script>
+</body>
+</html>
