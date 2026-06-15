@@ -1,19 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
 <title>BIOTTUS EXCHANGE</title>
 <style>
-body{margin:0;background:#0b0e11;color:#eaecef;font-family:Arial;}
-.header{background:#12161c;padding:12px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #2b3139;}
-.logo{width:32px;height:32px;background:linear-gradient(135deg,#FFD700,#D4AF37);clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);display:flex;align-items:center;justify-content:center;color:#000;font-weight:900;}
-.title{font-size:18px;font-weight:700;} .title span{color:#f0b90b;}
-.container{max-width:430px;margin:0 auto;padding:12px;}
-.card{background:#181a20;border:1px solid #2b3139;border-radius:12px;padding:16px;margin-bottom:12px;}
-.balance{font-size:28px;font-weight:700;margin:8px 0;}
-.item{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #2b3139;}
-.green{color:#0ecb81;font-weight:700;}
+:root{
+--bg:#0b0e11;--card:#181a20;--card2:#1e2329;--border:#2b3139;
+--text:#eaecef;--text2:#848e9c;--yellow:#f0b90b;--green:#0ecb81;--red:#f6465d;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;}
+.header{background:#12161c;padding:12px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;}
+.logo{width:32px;height:32px;background:linear-gradient(135deg,#FFD700,#D4AF37);clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);display:flex;align-items:center;justify-content:center;color:#000;font-weight:900;font-size:18px;}
+.title{font-size:18px;font-weight:700;}
+.title span{color:var(--yellow);}
+.container{max-width:430px;margin:0 auto;padding:12px 12px 80px;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:12px;}
+.balance-title{font-size:12px;color:var(--text2);}
+.balance{font-size:32px;font-weight:700;margin:6px 0;letter-spacing:-0.5px;}
+.pnl{font-size:13px;color:var(--green);font-weight:600;}
+.btn-deposit{width:100%;background:var(--yellow);color:#000;border:none;padding:12px;border-radius:8px;font-weight:700;font-size:14px;margin-top:12px;}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.grid-item{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:14px 8px;text-align:center;font-size:12px;color:var(--text2);font-weight:500;}
+.grid-icon{font-size:20px;margin-bottom:6px;display:block;}
+.list-header{font-weight:700;font-size:15px;margin-bottom:12px;}
+.coin-row{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid rgba(43,49,57,0.5);}
+.coin-row:last-child{border:none;}
+.coin-left{display:flex;align-items:center;gap:10px;}
+.coin-icon{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;color:#000;}
+.coin-pair{font-weight:600;font-size:14px;}
+.coin-name{font-size:11px;color:var(--text2);}
+.coin-right{text-align:right;}
+.price{font-weight:600;font-size:14px;}
+.change{display:inline-block;padding:4px 8px;border-radius:4px;font-size:12px;font-weight:700;margin-top:4px;}
+.change-up{background:rgba(14,203,129,0.1);color:var(--green);}
+.change-down{background:rgba(246,70,93,0.1);color:var(--red);}
+.nav{position:fixed;bottom:0;left:0;right:0;background:#12161c;border-top:1px solid var(--border);display:flex;max-width:430px;margin:0 auto;}
+.nav-item{flex:1;text-align:center;padding:8px 0 6px;color:var(--text2);font-size:10px;font-weight:500;}
+.nav-item.active{color:var(--yellow);}
+.nav-item span{font-size:22px;display:block;margin-bottom:2px;}
 </style>
 </head>
 <body>
@@ -21,18 +47,120 @@ body{margin:0;background:#0b0e11;color:#eaecef;font-family:Arial;}
     <div class="logo">B</div>
     <div class="title">BIOTTUS <span>EXCHANGE</span></div>
 </div>
+
 <div class="container">
     <div class="card">
-        <div style="font-size:12px;color:#848e9c;">Total Balance</div>
+        <div class="balance-title">Total Balance</div>
         <div class="balance">$24,592.84</div>
-        <div class="green">+ $847.21 Today</div>
+        <div class="pnl">+ $847.21 (+3.56%) Today</div>
+        <button class="btn-deposit">Deposit</button>
     </div>
+
     <div class="card">
-        <div style="font-weight:700;margin-bottom:12px;">Markets</div>
-        <div class="item"><div><b>BTC/USDT</b><br><span style="font-size:11px;color:#848e9c;">Bitcoin</span></div><div style="text-align:right;"><div>66,450.50</div><div class="green">+3.54%</div></div></div>
-        <div class="item"><div><b>ETH/USDT</b><br><span style="font-size:11px;color:#848e9c;">Ethereum</span></div><div style="text-align:right;"><div>1,812.20</div><div class="green">+2.81%</div></div></div>
-        <div class="item"><div><b>BNB/USDT</b><br><span style="font-size:11px;color:#848e9c;">BNB</span></div><div style="text-align:right;"><div>624.40</div><div class="green">+1.45%</div></div></div>
+        <div class="grid">
+            <div class="grid-item"><span class="grid-icon">🔄</span>Swap</div>
+            <div class="grid-item"><span class="grid-icon">📈</span>Trade</div>
+            <div class="grid-item"><span class="grid-icon">📊</span>Markets</div>
+            <div class="grid-item"><span class="grid-icon">👛</span>Wallet</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="list-header">Markets</div>
+        
+        <div class="coin-row">
+            <div class="coin-left">
+                <div class="coin-icon" style="background:#F7931A;">₿</div>
+                <div>
+                    <div class="coin-pair">BTC/USDT</div>
+                    <div class="coin-name">Bitcoin</div>
+                </div>
+            </div>
+            <div class="coin-right">
+                <div class="price">66,450.50</div>
+                <div class="change change-up">+3.54%</div>
+            </div>
+        </div>
+
+        <div class="coin-row">
+            <div class="coin-left">
+                <div class="coin-icon" style="background:#627EEA;">Ξ</div>
+                <div>
+                    <div class="coin-pair">ETH/USDT</div>
+                    <div class="coin-name">Ethereum</div>
+                </div>
+            <div class="coin-right">
+                <div class="price">1,812.20</div>
+                <div class="change change-up">+2.81%</div>
+            </div>
+        </div>
+
+        <div class="coin-row">
+            <div class="coin-left">
+                <div class="coin-icon" style="background:#F0B90B;">B</div>
+                <div>
+                    <div class="coin-pair">BNB/USDT</div>
+                    <div class="coin-name">BNB</div>
+                </div>
+            </div>
+            <div class="coin-right">
+                <div class="price">624.40</div>
+                <div class="change change-up">+1.45%</div>
+            </div>
+        </div>
+
+        <div class="coin-row">
+            <div class="coin-left">
+                <div class="coin-icon" style="background:#14F195;">S</div>
+                <div>
+                    <div class="coin-pair">SOL/USDT</div>
+                    <div class="coin-name">Solana</div>
+                </div>
+            </div>
+            <div class="coin-right">
+                <div class="price">145.30</div>
+                <div class="change change-up">+8.92%</div>
+            </div>
+        </div>
+
+        <div class="coin-row">
+            <div class="coin-left">
+                <div class="coin-icon" style="background:#23292F;color:#fff;">X</div>
+                <div>
+                    <div class="coin-pair">XRP/USDT</div>
+                    <div class="coin-name">XRP</div>
+                </div>
+            </div>
+            <div class="coin-right">
+                <div class="price">0.5820</div>
+                <div class="change change-down">-0.12%</div>
+            </div>
+        </div>
+
+        <div class="coin-row">
+            <div class="coin-left">
+                <div class="coin-icon" style="background:#C2A633;">Ð</div>
+                <div>
+                    <div class="coin-pair">DOGE/USDT</div>
+                    <div class="coin-name">Dogecoin</div>
+                </div>
+            </div>
+            <div class="coin-right">
+                <div class="price">0.0901</div>
+                <div class="change change-down">-2.45%</div>
+            </div>
+        </div>
+
     </div>
 </div>
+
+<div class="nav">
+    <div class="nav-item active"><span>🏠</span>Home</div>
+    <div class="nav-item"><span>📊</span>Markets</div>
+    <div class="nav-item"><span>📈</span>Trade</div>
+    <div class="nav-item"><span>🔄</span>Swap</div>
+    <div class="nav-item"><span>👛</span>Wallet</div>
+</div>
+
 </body>
 </html>
