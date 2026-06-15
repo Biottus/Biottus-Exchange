@@ -7,42 +7,25 @@
 <style>
 *{margin:0;box-sizing:border-box;}
 body{background:#0b0e11;color:#eaecef;font-family:Arial;}
-.h{background:#12161c;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #2b3139;position:sticky;top:0;z-index:100;}
+.h{background:#12161c;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #2b3139;}
 .hl{display:flex;align-items:center;gap:12px;}
-.logo{width:40px;height:40px;background:#f0b90b;color:#000;display:flex;align-items:center;justify-content:center;font-weight:900;border-radius:8px;}
-.t{font-size:20px;font-weight:800;color:#f0b90b;}
-.dnav{display:none;gap:30px;}
+.logo{width:44px;height:44px;background:#f0b90b;color:#000;display:flex;align-items:center;justify-content:center;font-weight:900;border-radius:8px;font-size:22px;}
+.t{font-size:22px;font-weight:800;color:#f0b90b;}
+.dnav{display:flex;gap:30px;}
 .dnav a{color:#848e9c;text-decoration:none;font-weight:600;font-size:14px;}
-.dnav a.active{color:#eaecef;}
-.wrap{max-width:1400px;margin:0 auto;padding:16px 12px 80px;}
-.main{display:grid;gap:16px;}
-.c{background:#181a20;border:1px solid #2b3139;border-radius:12px;padding:16px;}
+.dnav a.a{color:#eaecef;}
+.wrap{max-width:1400px;margin:0 auto;padding:20px;display:grid;grid-template-columns:1fr 380px;gap:16px;}
+.c{background:#181a20;border:1px solid #2b3139;border-radius:12px;padding:20px;margin-bottom:16px;}
 .lb{font-size:12px;color:#848e9c;}
-.b{font-size:32px;font-weight:700;margin:6px 0;}
+.b{font-size:40px;font-weight:700;margin:8px 0;}
 .g{color:#0ecb81;font-weight:600;}
 .btn{background:#f0b90b;color:#000;border:none;width:100%;padding:12px;border-radius:8px;font-weight:700;margin-top:12px;cursor:pointer;}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
 .gi{background:#1e2329;border:1px solid #2b3139;border-radius:10px;padding:16px 8px;text-align:center;font-size:13px;color:#848e9c;font-weight:600;}
 .gi span{display:block;font-size:20px;margin-bottom:4px;}
 .r{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid #2b3139;}
 .r:last-child{border:none;}
-.nav{position:fixed;bottom:0;left:0;right:0;background:#12161c;border-top:1px solid #2b3139;display:flex;}
-.ni{flex:1;text-align:center;padding:10px 0 8px;color:#848e9c;font-size:10px;font-weight:600;}
-.ni.a{color:#f0b90b;}
-.ni span{display:block;font-size:20px;margin-bottom:2px;}
-.side{display:none;}
-
-/* DESKTOP VERSION - 768px er boro screen e */
-@media (min-width: 768px){
-.nav{display:none;}
-.dnav{display:flex;}
-.wrap{display:grid;grid-template-columns:1fr 380px;gap:16px;padding:20px;}
-.main{grid-column:1;}
-.side{display:block;grid-column:2;}
-.grid{grid-template-columns:repeat(4,1fr);}
-.h{padding:16px 24px;}
-.b{font-size:40px;}
-}
+.tt{font-weight:700;margin-bottom:12px;font-size:15px;}
 </style>
 </head>
 <body>
@@ -51,7 +34,7 @@ body{background:#0b0e11;color:#eaecef;font-family:Arial;}
 <div class="logo">B</div>
 <div class="t">BIOTTUS EXCHANGE</div>
 <div class="dnav">
-<a class="active">Home</a>
+<a class="a">Home</a>
 <a>Markets</a>
 <a>Trade</a>
 <a>Futures</a>
@@ -61,7 +44,7 @@ body{background:#0b0e11;color:#eaecef;font-family:Arial;}
 </div>
 
 <div class="wrap">
-<div class="main">
+<div>
 <div class="c">
 <div class="lb">Total Balance</div>
 <div class="b">$24,592.84</div>
@@ -79,7 +62,7 @@ body{background:#0b0e11;color:#eaecef;font-family:Arial;}
 </div>
 
 <div class="c">
-<div style="font-weight:700;margin-bottom:12px;">Markets</div>
+<div class="tt">Markets</div>
 <div class="r"><span>BTC/USDT</span><span class="g">66450.50</span></div>
 <div class="r"><span>ETH/USDT</span><span class="g">1812.20</span></div>
 <div class="r"><span>BNB/USDT</span><span class="g">624.40</span></div>
@@ -89,23 +72,21 @@ body{background:#0b0e11;color:#eaecef;font-family:Arial;}
 </div>
 </div>
 
-<div class="side">
+<div>
 <div class="c">
-<div style="font-weight:700;margin-bottom:12px;">Top Gainers</div>
+<div class="tt">Top Gainers</div>
 <div class="r"><span>SOL/USDT</span><span class="g">+8.92%</span></div>
 <div class="r"><span>AVAX/USDT</span><span class="g">+5.67%</span></div>
 <div class="r"><span>MATIC/USDT</span><span class="g">+4.21%</span></div>
 <div class="r" style="border:none;"><span>BTC/USDT</span><span class="g">+3.54%</span></div>
 </div>
-</div>
-</div>
 
-<div class="nav">
-<div class="ni a"><span>H</span>Home</div>
-<div class="ni"><span>M</span>Markets</div>
-<div class="ni"><span>T</span>Trade</div>
-<div class="ni"><span>F</span>Futures</div>
-<div class="ni"><span>A</span>Assets</div>
+<div class="c">
+<div class="tt">24h Volume</div>
+<div class="b" style="font-size:28px;">$1.2B</div>
+<div style="color:#848e9c;font-size:13px;">Total exchange volume</div>
+</div>
+</div>
 </div>
 </body>
 </html>
