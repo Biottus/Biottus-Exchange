@@ -449,4 +449,31 @@ showMsg('Bought '+b.toFixed(6)+' '+curCoin+'!',0);
 }
 
 function doSell(){
-if(!logged){showLogin();
+if(!logged){showLogin();return;}
+let a=parseFloat(document.getElementById('sellAmt').value)||0;
+if(a<=0){showMsg('Enter amount',1);return;}
+if(a>wallet[curCoin]){showMsg('Insufficient '+curCoin,1);return;}
+let u=a*(coins[curCoin].p||0);wallet[curCoin]-=a;usdt+=u;addHist('Sell',curCoin,a,u);save();updateUI();
+document.getElementById('sellAmt').value='';calcSell();
+showMsg('Sold '+a.toFixed(6)+' '+curCoin+'!',0);
+}
+
+function updateMarkets(){
+let t=document.getElementById('marketsTable');
+let g=document.getElementById('gainers');
+let h=document.getElementById('homeMarkets');
+let arr=coinList.map(c=>({n:c,p:coins[c].p,c:coins[c].c}));
+let rows=arr.map(x=>'<tr class="coinrow" onclick="selectCoin(\''+x.n+'\')"><td><b>'+x.n+'/USDT</b></td><td align="right">'+x.p.toFixed(x.p>100?2:x.p>1?4:6)+'</td><td align="right" class="'+(x.c>=0?'g':'red')+'">'+(x.c>=0?'+':'')+x.c.toFixed(2)+'%</td></tr>').join('');
+if(t)t.innerHTML=rows;
+if(h)h.innerHTML=rows;
+if(g)g.innerHTML=arr.sort((a,b)=>b.c-a.c).slice(0,5).map(x=>'<tr><td>'+x.n+'/USDT</td><td align="right" class="g">+'+x.c.toFixed(2)+'%</td></tr>').join('');
+}
+
+function selectCoin(c){
+curCoin=c;document.getElementById('coinSelect').value=c;updateCoinDisplay();generateCandles();drawChart();location='#trade';
+}
+
+init();
+</script>
+</body>
+</html>
