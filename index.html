@@ -55,6 +55,7 @@ tr:hover{background:#1e2329;cursor:pointer;}
 .coinrow{cursor:pointer;}
 .coinrow:hover{background:#1e2329;}
 .scroll{max-height:400px;overflow-y:auto;}
+.loading{text-align:center;padding:40px;color:#848e9c;}
 @media(max-width:900px){.l,.r{float:none;width:100%;}}
 </style>
 </head>
@@ -86,13 +87,13 @@ tr:hover{background:#1e2329;cursor:pointer;}
 </div>
 <div class="c">
 <div style="font-weight:700;margin-bottom:12px;font-size:18px;">Top Markets</div>
-<div class="scroll"><table id="homeMarkets"></table></div>
+<div class="scroll"><table id="homeMarkets"><tr><td class="loading">Loading...</td></tr></table></div>
 </div>
 </div>
 <div class="r">
 <div class="c">
 <div style="font-weight:700;margin-bottom:12px;">Top Gainers</div>
-<table id="gainers"></table>
+<table id="gainers"><tr><td class="loading">Loading...</td></tr></table>
 </div>
 <div class="c">
 <div style="font-weight:700;margin-bottom:12px;">24h Volume</div>
@@ -105,7 +106,7 @@ tr:hover{background:#1e2329;cursor:pointer;}
 <div id="markets" class="page">
 <div class="c">
 <div style="font-weight:700;margin-bottom:12px;font-size:18px;">All Markets - 50 Coins</div>
-<div class="scroll"><table id="marketsTable"></table></div>
+<div class="scroll"><table id="marketsTable"><tr><td class="loading">Loading markets...</td></tr></table></div>
 </div>
 </div>
 
@@ -134,13 +135,13 @@ tr:hover{background:#1e2329;cursor:pointer;}
 <div style="font-size:12px;color:#848e9c;margin-bottom:8px;">Available: <span id="usdtBal">0.00</span> USDT</div>
 <input class="input" id="buyAmt" placeholder="Amount USDT" type="number">
 <div style="font-size:12px;color:#848e9c;margin:8px 0;">≈ <span id="buyCoin">0.000000</span> <span id="buySym">BTC</span></div>
-<button class="btn btn-s" onclick="doBuy()">Buy <span id="buySym2">BTC</span></button>
+<button class="btn btn-s" onclick="doBuy()" id="buyBtn">Buy <span id="buySym2">BTC</span></button>
 </div>
 <div id="sellbox" class="tradebox">
 <div style="font-size:12px;color:#848e9c;margin-bottom:8px;">Available: <span id="coinBal">0.000000</span> <span id="sellSym">BTC</span></div>
 <input class="input" id="sellAmt" placeholder="Amount" type="number">
 <div style="font-size:12px;color:#848e9c;margin:8px 0;">≈ <span id="sellUsdt">0.00</span> USDT</div>
-<button class="btn btn-b" onclick="doSell()">Sell <span id="sellSym2">BTC</span></button>
+<button class="btn btn-b" onclick="doSell()" id="sellBtn">Sell <span id="sellSym2">BTC</span></button>
 </div>
 </div>
 </div>
@@ -170,23 +171,29 @@ tr:hover{background:#1e2329;cursor:pointer;}
 let usdt=1000000000,logged=false,hist=[],curCoin='BTC',coins={},wallet={};
 const coinList=['BTC','ETH','BNB','SOL','XRP','DOGE','ADA','AVAX','SHIB','DOT','LINK','MATIC','LTC','BCH','UNI','ATOM','XLM','ETC','FIL','APT','ARB','OP','NEAR','VET','ICP','ALGO','QNT','AAVE','GRT','EOS','STX','SAND','MANA','THETA','AXS','FLOW','XTZ','EGLD','KLAY','MKR','RUNE','FTM','NEO','KAVA','IOTA','GALA','CHZ','ENJ','ZEC','DASH'];
 
+// Fallback prices if API fails
+const defaultPrices={BTC:66450,ETH:1812,BNB:624,SOL:145,XRP:0.52,DOGE:0.08,ADA:0.45,AVAX:35,SHIB:0.00001,DOT:7.2,LINK:14.5,MATIC:0.85,LTC:72,BCH:240,UNI:7.8,ATOM:9.2,XLM:0.11,ETC:20,FIL:5.8,APT:9.5,ARB:1.1,OP:2.3,NEAR:3.8,VET:0.025,ICP:4.5,ALGO:0.18,QNT:95,AAVE:85,GRT:0.15,EOS:0.7,STX:1.8,SAND:0.4,MANA:0.45,THETA:1.2,AXS:7.5,FLOW:0.8,XTZ:0.9,EGLD:35,KLAY:0.18,MKR:1500,RUNE:4.8,FTM:0.4,NEO:11,KAVA:0.7,IOTA:0.2,GALA:0.02,CHZ:0.09,ENJ:0.3,ZEC:28,DASH:32};
+
 function init(){
-coinList.forEach(c=>{coins[c]={p:0,c:0};wallet[c]=0;});
-let d=localStorage.getItem('bio4');
+coinList.forEach(c=>{
+coins[c]={p:defaultPrices[c]||1,c:(Math.random()*10-5)};
+wallet[c]=0;
+});
+let d=localStorage.getItem('bio5');
 if(d){let j=JSON.parse(d);usdt=j.u;logged=j.l;hist=j.h||[];Object.assign(wallet,j.w||{});}
-updateUI();updateHist();drawChart();loadPrices();
+updateUI();updateHist();drawChart();updateMarkets();
 document.getElementById('buyAmt').oninput=calcBuy;
 document.getElementById('sellAmt').oninput=calcSell;
-setInterval(loadPrices,10000);
+setInterval(loadPrices,15000);
 setInterval(drawChart,15000);
 let sel=document.getElementById('coinSelect');
 sel.innerHTML=coinList.map(c=>'<option value="'+c+'">'+c+'/USDT</option>').join('');
 setActiveMenu();
 window.onhashchange=setActiveMenu;
+loadPrices();
 }
 
-function save(){localStorage.setItem('bio4',JSON.stringify({u:usdt,l:logged,h:hist,w:wallet}));}
-
+function save(){localStorage.setItem('bio5',JSON.stringify({u:usdt,l:logged,h:hist,w:wallet}));}
 function showLogin(){document.getElementById('login').classList.add('show');}
 function hideLogin(){document.getElementById('login').classList.remove('show');}
 
@@ -214,19 +221,21 @@ document.getElementById('pnl').textContent=(pnl>=0?'+ ':'- ')+'$'+Math.abs(pnl).
 document.getElementById('pnl').className=pnl>=0?'g':'red';
 document.getElementById('usdtBal').textContent=usdt.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
 document.getElementById('coinBal').textContent=wallet[curCoin].toFixed(6);
+document.getElementById('buyBtn').disabled=false;
+document.getElementById('sellBtn').disabled=false;
 let whtml='<div style="font-weight:700;margin-bottom:12px;font-size:18px;">My Assets</div><table>';
 whtml+='<tr><td><b>USDT</b></td><td align="right">'+usdt.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})+'</td><td align="right" style="color:#848e9c;">$'+usdt.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})+'</td></tr>';
 coinList.forEach(c=>{if(wallet[c]>0)whtml+='<tr><td><b>'+c+'</b></td><td align="right">'+wallet[c].toFixed(6)+'</td><td align="right" style="color:#848e9c;">$'+(wallet[c]*coins[c].p).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})+'</td></tr>';});
 whtml+='<tr><td><b>Total</b></td><td colspan="2" align="right" class="g">$'+total.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})+'</td></tr></table>';
 document.getElementById('walletContent').innerHTML=whtml;
-document.querySelectorAll('.btn-s,.btn-b').forEach(b=>b.disabled=false);
 }else{
 document.getElementById('userBtn').textContent='Login';
 document.getElementById('totalBal').textContent='$0.00';
 document.getElementById('pnl').textContent='+ $0.00 (0.00%)';
 document.getElementById('depBtn').textContent='Login to Trade';
 document.getElementById('depBtn').onclick=showLogin;
-document.querySelectorAll('.btn-s,.btn-b').forEach(b=>b.disabled=true);
+document.getElementById('buyBtn').disabled=true;
+document.getElementById('sellBtn').disabled=true;
 }}
 
 function doLogin(){
@@ -254,7 +263,7 @@ updateCoinDisplay();
 }
 
 function updateCoinDisplay(){
-let p=coins[curCoin].p||0,c=coins[curCoin].c||0;
+let p=coins[curCoin].p||1,c=coins[curCoin].c||0;
 document.getElementById('curPrice').textContent=p.toFixed(p>100?2:p>1?4:6);
 document.getElementById('curChange').textContent=(c>=0?'+':'')+c.toFixed(2)+'%';
 document.getElementById('curChange').className=c>=0?'g':'red';
@@ -330,18 +339,18 @@ async function loadPrices(){
 try{
 let syms=coinList.map(c=>c+'USDT').join('","');
 let r=await fetch('https://api.binance.com/api/v3/ticker/24hr?symbols=["'+syms+'"]');
+if(!r.ok)throw new Error('API fail');
 let d=await r.json();
 d.forEach(x=>{
 let c=x.symbol.replace('USDT','');
 if(coins[c]){coins[c].p=parseFloat(x.lastPrice);coins[c].c=parseFloat(x.priceChangePercent);}
 });
+}catch(e){
+console.log('Using default prices');
+}
 document.getElementById('btcprice').textContent=coins.BTC.p.toFixed(2);
 document.getElementById('vol').textContent='$'+(coins.BTC.p*50000/1e9).toFixed(2)+'B';
 updateCoinDisplay();updateMarkets();
-}catch(e){
-coins.BTC={p:66450,c:3.54};coins.ETH={p:1812,c:2.81};coins.BNB={p:624,c:1.45};
-updateCoinDisplay();updateMarkets();
-}}
 }
 
 function updateMarkets(){
