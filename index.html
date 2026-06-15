@@ -2,7 +2,8 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>BIOTTUS V2 DEMO</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BIOTTUS EXCHANGE</title>
 <style>
 *{margin:0;box-sizing:border-box;}
 body{background:#0b0e11;color:#eaecef;font-family:Arial;}
@@ -11,6 +12,7 @@ body{background:#0b0e11;color:#eaecef;font-family:Arial;}
 .t{color:#f0b90b;font-size:22px;font-weight:800;display:inline-block;margin-left:12px;vertical-align:middle;}
 .nav{display:inline-block;margin-left:40px;}
 .nav a{color:#848e9c;text-decoration:none;font-weight:600;margin:0 15px;font-size:14px;padding:20px 0;}
+.nav a:hover{color:#fff;}
 .user{display:inline-block;float:right;color:#f0b90b;font-weight:600;padding:10px;cursor:pointer;}
 .wrap{max-width:1400px;margin:20px auto;padding:0 20px;}
 .l{float:left;width:65%;}
@@ -26,10 +28,16 @@ body{background:#0b0e11;color:#eaecef;font-family:Arial;}
 .page{display:none;}
 .page:target{display:block;}
 #home{display:block;}
-body:not(:has(:target)) #home{display:block;}
+body:has(#trade:target) #home,body:has(#wallet:target) #home,body:has(#markets:target) #home{display:none;}
 .clear{clear:both;}
-table{width:100%;border-collapse:collapse;}
-td{padding:12px 0;border-bottom:1px solid #2b3139;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+td{padding:8px 0;border-bottom:1px solid #2b3139;}
+tr:last-child td{border:none;}
+tr:hover{background:#1e2329;cursor:pointer;}
+.chart{width:100%;height:300px;background:#0b0e11;border-radius:8px;margin-top:12px;position:relative;overflow:hidden;}
+.candle{position:absolute;bottom:20px;width:4px;background:#0ecb81;margin-left:1px;}
+.candle.red{background:#f6465d;}
+.candle::before{content:'';position:absolute;left:1.5px;width:1px;background:inherit;top:-10px;bottom:-10px;}
 .popup{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:999;}
 .popup:target{display:flex;align-items:center;justify-content:center;}
 .popc{background:#181a20;border:1px solid #2b3139;border-radius:12px;padding:24px;width:90%;max-width:400px;position:relative;}
@@ -43,6 +51,13 @@ td{padding:12px 0;border-bottom:1px solid #2b3139;}
 .msg{padding:12px;background:#0ecb81;color:#000;border-radius:8px;margin:10px 0;text-align:center;font-weight:600;display:none;}
 .msg.error{background:#f6465d;}
 .msg.show{display:block;}
+#home:target ~ .h .nav a[href="#home"],
+#trade:target ~ .h .nav a[href="#trade"],
+#wallet:target ~ .h .nav a[href="#wallet"],
+#markets:target ~ .h .nav a[href="#markets"]{color:#f0b90b;border-bottom:2px solid #f0b90b;}
+.orderbook td{padding:4px 0;font-size:12px;border:none;}
+.price{transition:all 0.3s;}
+@media(max-width:900px){.l,.r{float:none;width:100%;}}
 </style>
 </head>
 <body>
@@ -51,6 +66,7 @@ td{padding:12px 0;border-bottom:1px solid #2b3139;}
 <div class="t">BIOTTUS EXCHANGE</div>
 <div class="nav">
 <a href="#home">Home</a>
+<a href="#markets">Markets</a>
 <a href="#trade">Trade</a>
 <a href="#wallet">Wallet</a>
 </div>
@@ -59,10 +75,35 @@ td{padding:12px 0;border-bottom:1px solid #2b3139;}
 
 <div class="wrap">
 <div id="home" class="page">
+<div class="l">
 <div class="c">
 <div style="font-size:12px;color:#848e9c;">Total Balance</div>
 <div class="b" id="totalBal">$0.00</div>
+<div id="pnl" style="font-weight:600;">+ $0.00 (0.00%)</div>
 <a href="#login" class="btn" id="depBtn">Login to Trade</a>
+</div>
+<div class="c">
+<div style="font-weight:700;margin-bottom:12px;">BTC/USDT Chart - <span class="price g" id="btcprice">66,450.50</span></div>
+<div class="chart" id="chart"></div>
+</div>
+</div>
+<div class="r">
+<div class="c">
+<div style="font-weight:700;margin-bottom:12px;">Top Gainers</div>
+<table id="gainers"></table>
+</div>
+<div class="c">
+<div style="font-weight:700;margin-bottom:12px;">24h Volume</div>
+<div class="b" style="font-size:28px;" id="vol">$1.24B</div>
+</div>
+</div>
+<div class="clear"></div>
+</div>
+
+<div id="markets" class="page">
+<div class="c">
+<div style="font-weight:700;margin-bottom:12px;font-size:18px;">All Markets</div>
+<table id="marketsTable"></table>
 </div>
 </div>
 
@@ -70,11 +111,21 @@ td{padding:12px 0;border-bottom:1px solid #2b3139;}
 <div class="l">
 <div class="c">
 <div style="font-weight:700;margin-bottom:12px;font-size:18px;">BTC/USDT</div>
-<div class="b" style="font-size:32px;">66,450.50</div>
-<div class="g">+3.54% 24h</div>
+<div style="color:#848e9c;">Last Price</div>
+<div class="b price" style="font-size:32px;" id="btc2">66,450.50</div>
+<div id="btc2c" style="font-weight:600;">+2,345.20 +3.54%</div>
+<div class="chart" id="chart2"></div>
+</div>
+<div class="c">
+<div style="font-weight:700;margin-bottom:12px;">Order History</div>
+<table id="history"><tr><td style="color:#848e9c;">No trades yet</td></tr></table>
 </div>
 </div>
 <div class="r">
+<div class="c">
+<div style="font-weight:700;margin-bottom:8px;font-size:14px;">Order Book</div>
+<table class="orderbook" id="book"></table>
+</div>
 <div class="c">
 <div class="tabs">
 <div class="tab active" onclick="switchTab('buy')">Buy</div>
@@ -113,76 +164,167 @@ td{padding:12px 0;border-bottom:1px solid #2b3139;}
 <input class="input" id="email" placeholder="demo@biottus.com" value="demo@biottus.com">
 <input class="input" id="pass" type="password" placeholder="123456" value="123456">
 <button class="btn" onclick="doLogin()">Log In</button>
+<div style="text-align:center;margin-top:12px;color:#848e9c;font-size:13px;">Demo: demo@biottus.com / 123456</div>
 </div>
 </div>
 
 <script>
-let usdt=10000,btc=0,logged=false,price=66450.50;
+let usdt=10000,btc=0,logged=false,price=66450.50,change=3.54,hist=[],coins={BTC:66450,ETH:1812,BNB:624,SOL:145};
+
 function init(){
-let d=localStorage.getItem('bio');
-if(d){let j=JSON.parse(d);usdt=j.u;btc=j.b;logged=j.l;}
-updateUI();
+let d=localStorage.getItem('bio2');
+if(d){let j=JSON.parse(d);usdt=j.u;btc=j.b;logged=j.l;hist=j.h||[];}
+updateUI();updateHist();drawChart();updatePrice();updateMarkets();updateBook();
 document.getElementById('buyAmt').oninput=calcBuy;
 document.getElementById('sellAmt').oninput=calcSell;
+setInterval(updatePrice,5000);
+setInterval(drawChart,10000);
 }
-function save(){localStorage.setItem('bio',JSON.stringify({u:usdt,b:btc,l:logged}));}
+
+function save(){localStorage.setItem('bio2',JSON.stringify({u:usdt,b:btc,l:logged,h:hist}));}
+
 function updateUI(){
 if(logged){
 document.getElementById('userBtn').textContent='Demo User | Logout';
 document.getElementById('depBtn').textContent='Go to Trade';
 document.getElementById('depBtn').href='#trade';
-document.getElementById('totalBal').textContent='$'+(usdt+btc*price).toFixed(2);
+let total=usdt+btc*price;
+let pnl=total-10000,pnlp=(pnl/10000*100).toFixed(2);
+document.getElementById('totalBal').textContent='$'+total.toFixed(2);
+document.getElementById('pnl').textContent=(pnl>=0?'+ ':'- ')+'$'+Math.abs(pnl).toFixed(2)+' ('+pnlp+'%)';
+document.getElementById('pnl').className=pnl>=0?'g':'red';
 document.getElementById('usdtBal').textContent=usdt.toFixed(2);
 document.getElementById('btcBal').textContent=btc.toFixed(6);
-document.getElementById('walletContent').innerHTML='<div style="font-weight:700;margin-bottom:12px;font-size:18px;">My Assets</div><table><tr><td><b>USDT</b></td><td align="right">'+usdt.toFixed(2)+'</td></tr><tr><td><b>BTC</b></td><td align="right">'+btc.toFixed(6)+'</td></tr><tr><td><b>Total USD</b></td><td align="right" class="g">$'+(usdt+btc*price).toFixed(2)+'</td></tr></table>';
+document.getElementById('walletContent').innerHTML='<div style="font-weight:700;margin-bottom:12px;font-size:18px;">My Assets</div><table><tr><td><b>USDT</b></td><td align="right">'+usdt.toFixed(2)+'</td><td align="right" style="color:#848e9c;">$'+usdt.toFixed(2)+'</td></tr><tr><td><b>BTC</b></td><td align="right">'+btc.toFixed(6)+'</td><td align="right" style="color:#848e9c;">$'+(btc*price).toFixed(2)+'</td></tr><tr><td><b>Total</b></td><td colspan="2" align="right" class="g">$'+total.toFixed(2)+'</td></tr></table>';
 }else{
 document.getElementById('userBtn').textContent='Login';
 document.getElementById('totalBal').textContent='$0.00';
+document.getElementById('pnl').textContent='+ $0.00 (0.00%)';
 }}
+
 function doLogin(){
 if(document.getElementById('email').value=='demo@biottus.com'){
 logged=true;save();updateUI();location='#home';
 }else{alert('Use demo@biottus.com / 123456');}
 }
+
 function toggleUser(){
-if(logged){logged=false;usdt=10000;btc=0;save();updateUI();location='#home';}
+if(logged){if(confirm('Logout? Balance will reset.')){logged=false;usdt=10000;btc=0;hist=[];save();updateUI();location='#home';}}
 else{location='#login';}
 }
+
 function switchTab(t){
 document.querySelectorAll('.tab').forEach(x=>x.className='tab');
 document.querySelectorAll('.tradebox').forEach(x=>x.className='tradebox');
 event.target.className='tab active';
 document.getElementById(t+'box').className='tradebox active';
 }
+
 function calcBuy(){
 let a=parseFloat(document.getElementById('buyAmt').value)||0;
 document.getElementById('buyBtc').textContent=(a/price).toFixed(6);
 }
+
 function calcSell(){
 let a=parseFloat(document.getElementById('sellAmt').value)||0;
 document.getElementById('sellUsdt').textContent=(a*price).toFixed(2);
 }
+
 function showMsg(t,e){
 let m=document.getElementById('msg');
 m.textContent=t;m.className='msg show'+(e?' error':'');
 setTimeout(()=>m.className='msg',3000);
 }
+
+function addHist(type,amt,val){
+hist.unshift({t:type,a:amt,v:val,d:new Date().toLocaleTimeString()});
+if(hist.length>20)hist.pop();
+save();updateHist();
+}
+
+function updateHist(){
+let h=document.getElementById('history');
+if(hist.length==0){h.innerHTML='<tr><td style="color:#848e9c;">No trades yet</td></tr>';return;}
+h.innerHTML=hist.map(x=>'<tr><td class="'+(x.t=='Buy'?'g':'red')+'">'+x.t+'</td><td>'+x.a.toFixed(6)+' BTC</td><td align="right">$'+x.v.toFixed(2)+'</td><td align="right" style="color:#848e9c;font-size:12px;">'+x.d+'</td></tr>').join('');
+}
+
 function doBuy(){
 if(!logged){location='#login';return;}
 let a=parseFloat(document.getElementById('buyAmt').value)||0;
 if(a<=0||a>usdt){showMsg('Insufficient USDT',1);return;}
-let b=a/price;usdt-=a;btc+=b;save();updateUI();
+let b=a/price;usdt-=a;btc+=b;addHist('Buy',b,a);save();updateUI();
 document.getElementById('buyAmt').value='';calcBuy();
 showMsg('Bought '+b.toFixed(6)+' BTC!');
 }
+
 function doSell(){
 if(!logged){location='#login';return;}
 let a=parseFloat(document.getElementById('sellAmt').value)||0;
 if(a<=0||a>btc){showMsg('Insufficient BTC',1);return;}
-let u=a*price;btc-=a;usdt+=u;save();updateUI();
+let u=a*price;btc-=a;usdt+=u;addHist('Sell',a,u);save();updateUI();
 document.getElementById('sellAmt').value='';calcSell();
 showMsg('Sold '+a.toFixed(6)+' BTC!');
 }
+
+function drawChart(){
+['chart','chart2'].forEach(id=>{
+let c=document.getElementById(id);if(!c)return;c.innerHTML='';
+for(let i=0;i<50;i++){
+let h=Math.random()*200+20,up=Math.random()>0.4;
+let d=document.createElement('div');
+d.className='candle'+(up?'':' red');
+d.style.height=h+'px';d.style.left=(i*2)+'%';
+c.appendChild(d);
+}});
+}
+
+async function updatePrice(){
+try{
+let r=await fetch('https://api.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT');
+let d=await r.json();
+price=parseFloat(d.lastPrice);
+change=parseFloat(d.priceChangePercent);
+coins.BTC=price;
+let p=price.toFixed(2),c=change.toFixed(2),ch=change>=0;
+['btcprice','btc2'].forEach(id=>{
+let e=document.getElementById(id);if(e)e.textContent=p.replace(/\B(?=(\d{3})+(?!\d))/g,',');
+});
+document.getElementById('btcprice').className='price '+(ch?'g':'red');
+document.getElementById('btc2c').textContent=(ch?'+':'')+d.priceChange+' '+(ch?'+':'')+c+'%';
+document.getElementById('btc2c').className=ch?'g':'red';
+document.getElementById('vol').textContent='$'+(parseFloat(d.volume)*price/1e9).toFixed(2)+'B';
+if(logged)updateUI();
+}catch(e){}
+}
+
+function updateMarkets(){
+let t=document.getElementById('marketsTable');
+let g=document.getElementById('gainers');
+let arr=[
+{name:'BTC/USDT',p:coins.BTC,c:change},
+{name:'ETH/USDT',p:coins.ETH,c:2.81},
+{name:'BNB/USDT',p:coins.BNB,c:1.45},
+{name:'SOL/USDT',p:coins.SOL,c:8.92}
+];
+t.innerHTML=arr.map(x=>'<tr onclick="location=\'#trade\'"><td><b>'+x.name+'</b></td><td align="right">'+x.p.toFixed(2)+'</td><td align="right" class="'+(x.c>=0?'g':'red')+'">'+(x.c>=0?'+':'')+x.c.toFixed(2)+'%</td></tr>').join('');
+g.innerHTML=arr.sort((a,b)=>b.c-a.c).slice(0,4).map(x=>'<tr><td>'+x.name+'</td><td align="right" class="g">+'+x.c.toFixed(2)+'%</td></tr>').join('');
+}
+
+function updateBook(){
+let b=document.getElementById('book'),html='';
+for(let i=0;i<5;i++){
+let p=(price+Math.random()*20).toFixed(2),v=(Math.random()*2).toFixed(3);
+html+='<tr><td class="red">'+p+'</td><td align="right">'+v+'</td></tr>';
+}
+html+='<tr><td colspan="2" style="text-align:center;color:#f0b90b;padding:6px 0;font-weight:700;">'+price.toFixed(2)+'</td></tr>';
+for(let i=0;i<5;i++){
+let p=(price-Math.random()*20).toFixed(2),v=(Math.random()*2).toFixed(3);
+html+='<tr><td class="g">'+p+'</td><td align="right">'+v+'</td></tr>';
+}
+b.innerHTML=html;
+setTimeout(updateBook,3000);
+}
+
 init();
 </script>
 </body>
