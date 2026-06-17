@@ -4,9 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>BIOTTUS EXCHANGE</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{margin:0;box-sizing:border-box;}
-body{background:#0b0e11;color:#eaecef;font-family:Arial;}
+body{background:#0b0e11;color:#eaecef;font-family:'Inter',Arial,sans-serif;}
 .h{background:#12161c;padding:16px 24px;border-bottom:1px solid #2b3139;position:sticky;top:0;z-index:100;display:flex;align-items:center;}
 .logo{display:inline-flex;width:44px;height:44px;background:linear-gradient(135deg,#f0b90b,#ffc800);color:#000;align-items:center;justify-content:center;font-weight:900;border-radius:8px;font-size:18px;box-shadow:0 2px 8px rgba(240,185,11,0.4);flex-shrink:0;}
 .t{color:#fff;font-size:22px;font-weight:800;display:inline-block;margin-left:12px;vertical-align:middle;letter-spacing:1px;}
@@ -86,7 +87,7 @@ tr:hover{background:#1e2329;cursor:pointer;}
 <a href="#trade" id="navTrade">Trade</a>
 <a href="#wallet" id="navWallet">Wallet</a>
 </div>
-<div class="user" id="userBtn" onclick="showLogin()">Login</div>
+<div class="user" id="userBtn" onclick="toggleUser()">Login</div>
 </div>
 
 <div class="wrap">
@@ -316,7 +317,7 @@ line.style.transformOrigin='0 0';
 container.appendChild(line);
 }
 }
-  function updatePrices(){
+function updatePrices(){
 coinList.forEach(c=>{
 let change=(Math.random()-0.48)*0.01;
 coins[c].p*=1+change;
@@ -380,8 +381,6 @@ logged=true;save();updateUI();hideLogin();location='#home';
 showMsg('Login Successful!',0);
 }else{alert('Wrong credentials! Use demo@biottus.com / 123456');}
 }
-
-document.getElementById('userBtn').onclick=function(){toggleUser();};
 
 function toggleUser(){
 if(logged){if(confirm('Logout? Balance will reset.')){logged=false;usdt=1000000000;hist=[];coinList.forEach(c=>wallet[c]=0);save();updateUI();location='#home';}}
@@ -478,7 +477,7 @@ function selectCoin(c){
 curCoin=c;document.getElementById('coinSelect').value=c;updateCoinDisplay();generateCandles();drawChart();location='#trade';
 }
 
-init();
+window.onload=init;
 </script>
 </body>
 </html>
